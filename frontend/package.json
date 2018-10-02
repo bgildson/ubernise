@@ -3,11 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "start:admin": "ng serve admin",
+    "build:admin": "ng build admin",
+    "build:prod:admin": "ng build admin --prod --build-optimizer --vendor-chunk --common-chunk",
+    "test:admin": "ng test admin",
+    "lint:admin": "ng lint admin",
+    "start:wallet": "ng serve wallet",
+    "build:wallet": "ng build wallet",
+    "build:prod:wallet": "ng build wallet --prod --build-optimizer --vendor-chunk --common-chunk",
+    "test:wallet": "ng test wallet",
+    "lint:wallet": "ng lint wallet"
   },
   "private": true,
   "dependencies": {
