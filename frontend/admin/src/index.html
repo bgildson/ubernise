@@ -2,16 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Admin</title>
+  <title>Ubernise - Admin</title>
   <base href="/">
+  <meta name="theme-color" content="#1976d2">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1976d2">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+  <!-- inline spinner styles to be able to display spinner right away -->
+  <style type="text/css">
+    body, html {
+      height: 100%;
+    }
+    .app-loading {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    .spinner {
+      display: inline-block;
+      position: relative;
+      width: 64px;
+      height: 64px;
+    }
+    .spinner div {
+      box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 51px;
+      height: 51px;
+      margin: 6px;
+      border: 6px solid #fff;
+      border-radius: 50%;
+      animation: spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: #fff transparent transparent transparent;
+    }
+    .spinner div:nth-child(1) {
+      animation-delay: -0.45s;
+    }
+    .spinner div:nth-child(2) {
+      animation-delay: -0.3s;
+    }
+    .spinner div:nth-child(3) {
+      animation-delay: -0.15s;
+    }
+    @keyframes spinner {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
-  <noscript>Please enable JavaScript to continue using this application.</noscript>
+  <app-root>
+    <!-- loading layout replaced by app after startupp -->
+    <div class="app-loading"><div class="spinner"><div></div><div></div><div></div><div></div></div></div>
+  </app-root>
+
+  <noscript>
+    <p>Para utilizar este aplicativo o JavaScript deve estar habilitado.</p>
+  </noscript>
 </body>
 </html>

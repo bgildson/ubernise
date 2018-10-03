@@ -1,0 +1,33 @@
+<mat-drawer-container autosize>
+  <mat-drawer class="mat-elevation-z4" #drawer [mode]="drawerMode$ | async" (closedStart)="onDrawerClosedStart()">
+    <mat-toolbar color="accent">
+      <span>Ubernise</span>
+    </mat-toolbar>
+
+    <button mat-menu-item (click)="onMenuItemClicked('/')">
+      <mat-icon>home</mat-icon>
+      Home
+    </button>
+    <!-- <button mat-menu-item (click)="onMenuItemClicked('/carteiras')">
+      <mat-icon>wallet</mat-icon>
+      Carteiras
+    </button> -->
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <mat-toolbar class="mat-elevation-z2" color="primary">
+      <button
+        mat-icon-button
+        *ngIf="!(drawerFixed$ | async)"
+        (click)="drawer.open()"><mat-icon>menu</mat-icon></button>
+      <span class="spacer"></span>
+      <img [src]="(usuario$ | async).imagem_url" [matMenuTriggerFor]="menu">
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onSair()">Sair</button>
+      </mat-menu>
+    </mat-toolbar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

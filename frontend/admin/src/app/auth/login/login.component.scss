@@ -1,0 +1,16 @@
+@import '../../../theme.scss';
+
+.container {
+  height: 100%;
+  width: 100%;
+  background-color: mat-color($accent, 500);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  mat-card form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+}

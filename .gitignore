@@ -6,6 +6,7 @@
 /frontend/out-tsc
 /frontend/functions/lib
 /frontend/functions/firebase-debug.log
+/.firebase
 
 # dependencies
 /frontend/node_modules

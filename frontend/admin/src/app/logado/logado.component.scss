@@ -1,0 +1,39 @@
+@import '../../theme.scss';
+
+mat-drawer-container {
+  height: 100%;
+
+  mat-drawer {
+    width: 300px;
+
+    mat-toolbar span {
+      margin: 0 auto;
+    }
+  }
+  mat-drawer-content {
+    display: flex;
+    flex-direction: column;
+  
+    mat-toolbar {
+      position: absolute;
+      right: 0;
+
+      img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+      }
+      .spacer {
+        flex: 1 1 auto;
+      }
+    }
+    .content {
+      flex-grow: 1;
+      overflow-y: auto;
+      margin-top: 64px;
+      @media (max-width: 599px) {
+        margin-top: 56px;
+      }
+    }
+  }
+}

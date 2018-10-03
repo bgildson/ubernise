@@ -16,6 +16,17 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@admin/*": [
+        "admin/src/app/*",
+        "admin/src/environments/*"
+      ],
+      "@wallet/*": [
+        "wallet/src/app/*",
+        "wallet/src/environments/*"
+      ],
+      "@shared/*": ["../shared/*"]
+    }
   }
 }

@@ -1,7 +1,31 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write;
+
+    function usuarioPorUid(uid) {
+      return get(/databases/$(database)/documents/usuarios/$(uid));
+    }
+
+    function autenticado() {
+      return request.auth != null;
+    }
+
+    function autenticadoComPerfilIn(perfis) {
+      return autenticado() && (usuarioPorUid(request.auth.uid).data.perfil in perfis);
+    }
+
+    function campoNaoAlterado(campo) {
+      return !(campo in request.resource.data.keys())
+             || request.resource.data[campo] == resource.data[campo];
+    }
+
+    match /usuarios/{usuario} {
+      allow read: if autenticado();
+      allow update: if autenticadoComPerfilIn(['administrador', 'supervisor'])
+                    || (autenticado() &&
+                        usuario == request.auth.uid &&
+                        campoNaoAlterado('ativo') &&
+                        campoNaoAlterado('perfil'));
+      allow create, delete: if false;
     }
   }
 }

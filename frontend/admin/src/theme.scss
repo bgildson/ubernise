@@ -1,0 +1,81 @@
+@import '~@angular/material/theming';
+
+// http://mcg.mbitson.com/#!?mcgpalette0=%23ffca6a
+$my-primary-palette: (
+  50 : #fff9ed,
+  100 : #ffefd2,
+  200 : #ffe5b5,
+  300 : #ffda97,
+  400 : #ffd280,
+  500 : #ffca6a,
+  600 : #ffc562,
+  700 : #ffbd57,
+  800 : #ffb74d,
+  900 : #ffab3c,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #fff3e5,
+  A700 : #ffe8cb,
+  contrast: (
+    50: #000020,
+    100: #000020,
+    200: #000020,
+    300: #000020,
+    400: #000020,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: #000020,
+    A200: #000020,
+    A400: #000020,
+    A700: white,
+  )
+);
+// http://mcg.mbitson.com/#!?mcgpalette0=%237282da
+$my-accent-palette: (
+  50 : #eef0fb,
+  100 : #d5daf4,
+  200 : #b9c1ed,
+  300 : #9ca8e5,
+  400 : #8795e0,
+  500 : #7282da,
+  600 : #6a7ad6,
+  700 : #5f6fd0,
+  800 : #5565cb,
+  900 : #4252c2,
+  A100 : #ffffff,
+  A200 : #e2e5ff,
+  A400 : #afb8ff,
+  A700 : #96a2ff,
+  contrast: (
+    50: #000020,
+    100: #000020,
+    200: #000020,
+    300: #000020,
+    400: #000020,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: #000020,
+    A200: #000020,
+    A400: #000020,
+    A700: white,
+  )
+);
+
+// define 3 theme color
+// mat-palette accepts $palette-name, main, lighter and darker variants
+$primary: mat-palette($my-primary-palette, 700, 300, 900);
+$accent: mat-palette($my-accent-palette);
+$warn: mat-palette($mat-red, A200);
+
+// create theme (use mat-dark-theme for themes with dark backgrounds)
+$my-theme: mat-light-theme(
+  $primary,
+  $accent,
+  $warn
+);

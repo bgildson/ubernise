@@ -1,1 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
+@import '../../node_modules/@angular/material/theming';
+
+// always include only once per project
+@include mat-core();
+
+// import our custom theme
+@import './theme.scss';
+
+// use my-theme with angular-material-theme mixin
+@include angular-material-theme($my-theme);
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+}
+
+.card-margin-top {
+  margin-top: 30px;
+  @media (max-width: 599px) {
+    margin-top: 20px;
+  }
+}
+.card-header {
+  padding: 10px;
+  background-color: #f2f2f2;
+  display: flex;
+  color: #757575;
+
+  .header-spacer {
+    flex-grow: 1;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  height: 100%;
+}

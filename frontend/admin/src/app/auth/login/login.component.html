@@ -1,0 +1,15 @@
+<div class="container">
+  <mat-card>
+    <form [formGroup]="form" (ngSubmit)="onEntrar()">
+      <mat-form-field>
+        <input type="email" matInput placeholder="Email" formControlName="email">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="password" matInput placeholder="Senha" formControlName="senha">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="loginLoading$ | async">Entrar</button>
+    </form>
+  </mat-card>
+</div>
