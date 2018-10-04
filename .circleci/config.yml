@@ -11,22 +11,30 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "frontend/package.json" }}-{{ checksum "functions/package.json" }}
+            - v1-dependencies-{{ checksum "package.json" }}-{{ checksum "frontend/package.json" }}-{{ checksum "functions/package.json" }}
             - v1-dependencies-
 
       - run:
           name: npm update packages
-          command: npm --prefix "frontend" install && npm --prefix "functions" install
+          command: npm install && npm --prefix "frontend" install && npm --prefix "functions" install
 
       - save_cache:
           paths:
             - ~/.npm
             - ~/.cache
-          key: v1-dependencies-{{ checksum "frontend/package.json" }}-{{ checksum "functions/package.json" }}
+          key: v1-dependencies-{{ checksum "package.json" }}-{{ checksum "frontend/package.json" }}-{{ checksum "functions/package.json" }}
 
       - run:
-          name: build apps in prod mode
-          command: npm run build
+          name: build admin app
+          command: npm --prefix \"frontend\" run build:prod:admin
+
+      # - run:
+      #     name: build wallet app
+      #     command: npm --prefix \"frontend\" run build:prod:wallet
+
+      - run:
+          name: build firebase functions
+          command: npm --prefix \"functions\" run build
 
       - deploy:
           name: deploy apps
