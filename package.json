@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm --prefix \"frontend\" run build:prod:admin && npm --prefix \"frontend\" run build:prod:wallet && npm --prefix \"functions\" run build",
+    "predeploy": "firebase use --token $FIREBASE_DEPLOY_KEY $CI_ENVIRONMENT_SLUG",
+    "deploy": "firebase deploy --non-interactive --token $FIREBASE_DEPLOY_KEY"
   },
   "repository": {
     "type": "git",

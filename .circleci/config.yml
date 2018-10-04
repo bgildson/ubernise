@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.10
+
+    working_directory: ~/ubernise
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "frontend/package.json" }}-{{ checksum "functions/package.json" }}
+            - v1-dependencies-
+
+      - run:
+          name: npm update packages
+          command: npm --prefix "frontend" install && npm --prefix "functions" install
+
+      - save_cache:
+          paths:
+            - ~/.npm
+            - ~/.cache
+          key: v1-dependencies-{{ checksum "frontend/package.json" }}-{{ checksum "functions/package.json" }}
+
+      - run:
+          name: build apps in prod mode
+          command: npm run build
+
+      - deploy:
+          name: deploy apps
+          command: npm run deploy
