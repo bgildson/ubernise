@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm --prefix \"frontend\" run build:prod:admin && npm --prefix \"frontend\" run build:prod:wallet && npm --prefix \"functions\" run build",
     "predeploy": "firebase use --token $FIREBASE_DEPLOY_KEY $CI_ENVIRONMENT_SLUG",
     "deploy": "firebase deploy --non-interactive --token $FIREBASE_DEPLOY_KEY"
   },
@@ -23,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/bgildson/ubernise/issues"
   },
-  "homepage": "https://github.com/bgildson/ubernise#readme"
+  "homepage": "https://github.com/bgildson/ubernise#readme",
+  "devDependencies": {
+    "firebase-tools": "^4.2.1"
+  }
 }
