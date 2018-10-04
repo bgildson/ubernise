@@ -26,15 +26,15 @@ jobs:
 
       - run:
           name: build admin app
-          command: npm --prefix \"frontend\" run build:prod:admin
+          command: npm --prefix frontend run build:prod:admin
 
       # - run:
       #     name: build wallet app
-      #     command: npm --prefix \"frontend\" run build:prod:wallet
+      #     command: npm --prefix frontend run build:prod:wallet
 
       - run:
           name: build firebase functions
-          command: npm --prefix \"functions\" run build
+          command: npm --prefix functions run build
 
       - deploy:
           name: deploy apps
