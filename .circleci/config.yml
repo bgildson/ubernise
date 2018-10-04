@@ -32,10 +32,6 @@ jobs:
       #     name: build wallet app
       #     command: npm --prefix frontend run build:prod:wallet
 
-      - run:
-          name: build firebase functions
-          command: npm --prefix functions run build
-
       - deploy:
           name: deploy apps
           command: npm run deploy
