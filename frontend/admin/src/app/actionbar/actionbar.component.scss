@@ -1,0 +1,8 @@
+@import '../../theme.scss';
+
+div {
+  display: flex;
+  padding: 5px;
+  color: mat-color($admin-accent-palette, A100);
+  background: mat-color($admin-accent-palette, 700);
+}

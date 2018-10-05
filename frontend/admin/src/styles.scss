@@ -7,7 +7,7 @@
 @import './theme.scss';
 
 // use my-theme with angular-material-theme mixin
-@include angular-material-theme($my-theme);
+@include angular-material-theme($admin-theme);
 
 body {
   margin: 0;
@@ -26,10 +26,9 @@ body {
   background-color: #f2f2f2;
   display: flex;
   color: #757575;
-
-  .header-spacer {
-    flex-grow: 1;
-  }
+}
+.spacer {
+  flex-grow: 1;
 }
 
 .spinner-container {

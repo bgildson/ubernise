@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 
 // http://mcg.mbitson.com/#!?mcgpalette0=%23ffca6a
-$my-primary-palette: (
+$admin-primary-palette: (
   50 : #fff9ed,
   100 : #ffefd2,
   200 : #ffe5b5,
@@ -34,7 +34,7 @@ $my-primary-palette: (
   )
 );
 // http://mcg.mbitson.com/#!?mcgpalette0=%237282da
-$my-accent-palette: (
+$admin-accent-palette: (
   50 : #eef0fb,
   100 : #d5daf4,
   200 : #b9c1ed,
@@ -69,12 +69,11 @@ $my-accent-palette: (
 
 // define 3 theme color
 // mat-palette accepts $palette-name, main, lighter and darker variants
-$primary: mat-palette($my-primary-palette, 700, 300, 900);
-$accent: mat-palette($my-accent-palette);
+$primary: mat-palette($admin-primary-palette, 700, 300, 900);
+$accent: mat-palette($admin-accent-palette);
 $warn: mat-palette($mat-red, A200);
 
-// create theme (use mat-dark-theme for themes with dark backgrounds)
-$my-theme: mat-light-theme(
+$admin-theme: mat-light-theme(
   $primary,
   $accent,
   $warn

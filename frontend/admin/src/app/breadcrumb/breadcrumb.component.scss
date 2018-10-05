@@ -1,0 +1,8 @@
+@import '~@angular/material/theming';
+@import '../../theme.scss';
+
+div {
+  padding: 20px;
+  color: mat-color($admin-primary-palette, A100);
+  background: mat-color($admin-primary-palette, 700);
+}
