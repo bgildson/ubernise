@@ -1,7 +1,7 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-  selector: "carteiras",
+  selector: 'carteiras',
   templateUrl: './carteiras.component.html'
 })
 export class CarteirasComponent {}

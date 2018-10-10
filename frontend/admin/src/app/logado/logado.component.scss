@@ -28,6 +28,7 @@ mat-drawer-container {
       }
     }
     .content {
+      height: 100%;
       flex-grow: 1;
       overflow-y: auto;
       margin-top: 64px;

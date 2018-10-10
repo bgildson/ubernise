@@ -1,7 +1,7 @@
 # Ubernise
-Application developed to help manage rides.
+PWA developed to help manage rides.
 
-The application was divided in two parts, the *admin* and the *wallet*.
+The PWA was divided in two parts, the *admin* and the *wallet*.
 
 ## admin
 Where the driver configure taxes and manage rides
