@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -19,6 +19,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
 import { LogadoComponent } from './logado/logado.component';
+
+import { registerLocaleData } from '@angular/common';
+import pt from '@angular/common/locales/pt';
+registerLocaleData(pt);
 
 @NgModule({
   declarations: [AppComponent, LogadoComponent],
@@ -50,7 +54,7 @@ import { LogadoComponent } from './logado/logado.component';
     }),
     NgxsReduxDevtoolsPluginModule.forRoot()
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'pt' }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
