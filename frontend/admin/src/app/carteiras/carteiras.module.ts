@@ -4,11 +4,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule, MatIconModule } from '@angular/material';
 import { NgxsModule } from '@ngxs/store';
 
+import { ActionbarModule } from '@admin/actionbar/actionbar.module';
+import { BreadcrumbModule } from '@admin/breadcrumb/breadcrumb.module';
+import { ContentSpinnerModule } from '@admin/content-spinner/content-spinner.module';
 import { CarteirasRoutingModule } from './carteiras-routing.module';
 import { CarteirasComponent } from './carteiras.component';
 import { CarteirasState } from './carteiras.state';
-import { BreadcrumbModule } from '@admin/breadcrumb/breadcrumb.module';
-import { ActionbarModule } from '@admin/actionbar/actionbar.module';
 
 @NgModule({
   imports: [
@@ -17,8 +18,9 @@ import { ActionbarModule } from '@admin/actionbar/actionbar.module';
     MatButtonModule,
     MatIconModule,
     CarteirasRoutingModule,
-    BreadcrumbModule,
     ActionbarModule,
+    BreadcrumbModule,
+    ContentSpinnerModule,
     FlexLayoutModule
   ],
   declarations: [CarteirasComponent]
