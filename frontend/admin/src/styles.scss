@@ -31,10 +31,16 @@ body {
   flex-grow: 1;
 }
 
-.spinner-container {
+.container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+  flex-direction: column;
+  overflow: hidden;
   height: 100%;
+
+  >.content {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex: 1 1 auto;
+  }
 }
