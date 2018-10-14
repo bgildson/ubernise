@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, throwError, from } from 'rxjs';
 import { first, map, catchError, switchMap } from 'rxjs/operators';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 import { documentChangeActionToEntities } from '@shared/functions';
 import { BaseEntity, UsuarioModel } from '@shared/models';
