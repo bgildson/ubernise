@@ -1,0 +1,29 @@
+@import '~@angular/material/theming';
+@import '~admin/src/theme.scss';
+
+.taxa {
+  display: flex;
+
+  .flag {
+    background: mat-color($admin-primary-palette, 700);
+    width: 6px;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 10px;
+
+    .valor {
+      font-size: 30px;
+    }
+    .periodo {
+      font-size: 13px;
+    }
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+}

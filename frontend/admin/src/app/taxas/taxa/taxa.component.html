@@ -1,0 +1,12 @@
+<div class="taxa">
+  <div class="flag"></div>
+  <div class="content">
+    <span class="valor">{{ taxa.valor | currency: 'BRL' }}</span>
+    <span class="periodo">{{ taxa.data_inicial | date: 'dd/MM/yyyy' }} - {{ (taxa.data_final | date: 'dd/MM/yyyy') || 'Agora' }}</span>
+  </div>
+  <div class="actions">
+    <button mat-icon-button *ngIf="showDeleteButton" [disabled]="deleteButtonDisabled" (click)="delete.next()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>

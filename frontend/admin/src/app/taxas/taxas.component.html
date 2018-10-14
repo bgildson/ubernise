@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="content">
+    <breadcrumb title="Taxas"></breadcrumb>
+
+    <content-spinner [loading]="loading$ | async">
+      <taxa
+        *ngFor="let taxa of taxas$ | async; let i = index"
+        [taxa]="taxa"
+        [showDeleteButton]="i == 0"
+        [deleteButtonDisabled]="waiting$ | async"
+        (delete)="onDelete(taxa)"></taxa>
+    </content-spinner>
+  </div>
+  <actionbar>
+    <div class="spacer"></div>
+    <button mat-icon-button [disabled]="waiting$ | async" (click)="openTaxaDialog()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </actionbar>
+</div>

@@ -1,0 +1,13 @@
+<form [formGroup]="form" (submit)="onCreate()">
+  <mat-form-field>
+    <input matInput formControlName="data_inicial" [matDatepicker]="dataInicial" placeholder="Data Inicial">
+    <mat-datepicker-toggle matSuffix [for]="dataInicial"></mat-datepicker-toggle>
+    <mat-datepicker touchUi #dataInicial></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="valor" placeholder="Valor">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" [disabled]="creating$ | async">Criar</button>
+</form>
