@@ -1,0 +1,7 @@
+<mat-dialog-content>
+  <p>{{ data.message || 'Confirma?' }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="onYes()">{{ data.yesLabel || 'Sim' }}</button>
+  <button mat-button (click)="onNo()">{{ data.noLabel || 'Não' }}</button>
+</mat-dialog-actions>
