@@ -1,0 +1,6 @@
+<form [formGroup]="form" (submit)="onAdicionar()">
+  <mat-form-field>
+    <input type="text" matInput formControlName="valor" placeholder="Valor">
+  </mat-form-field>
+  <button mat-raised-button color="primary" [disabled]="adicionandoCredito$ | async">Adicionar</button>
+</form>

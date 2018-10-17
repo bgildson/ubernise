@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  @media (min-width: 300px) {
+    min-width: 200px;
+  }
+  @media (min-width: 400px) {
+    min-width: 300px;
+  }
+  @media (min-width: 500px) {
+    min-width: 400px;
+  }
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  mat-dialog-actions {
+    justify-content: right;
+  }
+}

@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Histórico</h1>
+<mat-dialog-content>
+  <div class="spinner-container" *ngIf="loading$ | async">
+    <mat-spinner [diameter]="42"></mat-spinner>
+  </div>
+  <movimentacao-row
+    *ngFor="let movimentacao of movimentacoes$ | async"
+    [movimentacao]="movimentacao"></movimentacao-row>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-dialog-close mat-raised-button color="primary">Fechar</button>
+</mat-dialog-actions>

@@ -77,7 +77,7 @@ export const parseStringToNumber = (value: string, _default: number = 0) => {
   if (!value) return _default;
 
   _value = parseFloat(_value.replace(',', '.'));
-  if (isNaN(_value)) return null;
+  if (isNaN(_value)) return 0;
 
   return _value;
 };

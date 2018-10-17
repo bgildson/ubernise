@@ -5,7 +5,8 @@
   align-items: start;
 
   >* {
-    flex-grow: 1;
+    // flex-grow: 1;
+    width: 100%;
   }
   .spinner-container {
     display: flex;

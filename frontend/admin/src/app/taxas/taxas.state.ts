@@ -1,7 +1,7 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import * as moment from 'moment';
 
-import { TaxaModel, BaseEntity } from '@shared/models';
+import { TaxaModel, BaseStateModel } from '@shared/models';
 import { TaxasService } from './taxas.service';
 import {
   LoadTaxasAction,
@@ -18,12 +18,6 @@ import { tap, catchError } from 'rxjs/operators';
 import { ShowGlobalSnackBarAction } from '@admin/app.actions';
 import { listToEntitiesOrdenation } from '@shared/functions';
 import { of } from 'rxjs';
-
-export class BaseStateModel<Model> {
-  entities: BaseEntity<Model>;
-  loading: boolean;
-  ordenation: any[];
-}
 
 export class TaxasStateModel extends BaseStateModel<TaxaModel> {
   creating: boolean;

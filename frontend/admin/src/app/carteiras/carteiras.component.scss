@@ -1,0 +1,38 @@
+mat-card {
+  padding: 0;
+
+  .table-container {
+    overflow: auto;
+
+    table {
+      min-width: 300px;
+      width: 100%;
+
+      .mat-column-usuario {
+        width: 200px;
+
+        div {
+          display: flex;
+          align-items: center;
+
+          img {
+            height: 32px;
+            width: 32px;
+            border-radius: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+          }
+        }
+      }
+      .mat-column-saldo {
+        width: 100px;
+        text-align: center;
+      }
+      .mat-column-actions {
+        width: 40px;
+        padding: 0;
+        text-align: center;
+      }
+    }
+  }
+}

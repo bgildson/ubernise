@@ -1,15 +1,46 @@
 <div class="container">
   <div class="content">
     <breadcrumb title="carteiras"></breadcrumb>
-    <content-spinner loading="true"></content-spinner>
+    <content-spinner class="content-padding" [loading]="loading$ | async">
+      <mat-card>
+        <div class="table-container">
+          <table
+            mat-table
+            [dataSource]="dataSource">
+
+            <ng-container matColumnDef="usuario">
+              <th mat-header-cell *matHeaderCellDef>Usuário</th>
+              <td mat-cell *matCellDef="let element">
+                <div>
+                  <img [src]="element.usuario_imagem_url" alt="Usuário Imagem">
+                  {{ element.usuario_nome_exibicao }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="saldo">
+              <th mat-header-cell *matHeaderCellDef>Saldo</th>
+              <td mat-cell *matCellDef="let element">{{ element.saldo | currency: 'BRL' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu" [disabled]="element.realizado">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="onVerHistorico(element.id)">Ver Histórico</button>
+                  <button mat-menu-item (click)="onAdicionarCredito(element.id)">Adicionar Crédito</button>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="tableHeaders; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: tableHeaders">{{ row }}</tr>
+          </table>
+        </div>
+      </mat-card>
+    </content-spinner>
   </div>
-  <actionbar>
-    <button mat-icon-button>
-      <mat-icon>navigate_before</mat-icon>
-    </button>
-    <div class="spacer"></div>
-    <button mat-icon-button>
-      <mat-icon>add</mat-icon>
-    </button>
-  </actionbar>
 </div>

@@ -1,0 +1,5 @@
+<div class="description">
+  <span class="text">{{ movimentacaoOperacoesDescriptions[movimentacao.operacao] }}</span>
+  <span class="date">{{ movimentacao.data | date: "dd/MM/yyyy HH:mm" }}</span>
+</div>
+<span class="value">{{ movimentacao.valor | currency: "BRL" }}</span>
