@@ -42,5 +42,12 @@ body {
     flex-direction: column;
     overflow: auto;
     flex: 1 1 auto;
+
+    .content-padding {
+      padding: 30px;
+      @media (max-width: 599px) {
+        padding: 20px;
+      }
+    }
   }
 }
