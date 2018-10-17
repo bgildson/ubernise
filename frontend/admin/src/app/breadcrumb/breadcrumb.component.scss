@@ -1,8 +1,13 @@
 @import '~@angular/material/theming';
 @import '../../theme.scss';
 
-div {
-  padding: 20px;
+:host {
+  display: flex;
   color: mat-color($admin-primary-palette, A100);
   background: mat-color($admin-primary-palette, 700);
+  align-items: center;
+}
+div {
+  padding: 20px;
+  flex-grow: 1;
 }
