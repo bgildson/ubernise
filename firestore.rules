@@ -18,6 +18,16 @@ service cloud.firestore {
              || request.resource.data[campo] == resource.data[campo];
     }
 
+    match /carteiras/{carteira} {
+      allow read: if autenticado();
+      allow write: if false;
+    }
+
+    match /movimentacoes/{movimentacao} {
+      allow read: if autenticado();
+      allow write: if false;
+    }
+
     match /taxas/{taxa} {
       allow read: if autenticado();
       allow write: if false;
