@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "ubernisee"
+  },
+  "targets": {
+    "ubernisee": {
+      "hosting": {
+        "admin-ubernise": [
+          "admin-ubernise"
+        ],
+        "wallet-ubernise": [
+          "wallet-ubernise"
+        ]
+      }
+    }
   }
 }
