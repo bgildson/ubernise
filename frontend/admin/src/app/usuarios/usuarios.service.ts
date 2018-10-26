@@ -4,8 +4,8 @@ import { Observable, throwError, from } from 'rxjs';
 import { first, map, catchError, switchMap } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { documentChangeActionToEntities } from '@shared/functions';
-import { BaseEntity, UsuarioModel } from '@shared/models';
+import { documentChangeActionToList } from '@shared/functions';
+import { UsuarioModel } from '@shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,17 @@ export class UsuariosService {
   static readonly basePath = 'usuarios';
 
   constructor(private afs: AngularFirestore, private afa: AngularFireAuth) {}
+
+  listenPassageiros = () =>
+    this.afs
+      .collection(UsuariosService.basePath, ref =>
+        ref.orderBy('nome_exibicao', 'asc').where('perfil', '==', 'passageiro')
+      )
+      .snapshotChanges()
+      .pipe(
+        map(documentChangeActionToList('uid')),
+        catchError(error => throwError(error.message))
+      );
 
   getByUid = (uid: string): Observable<UsuarioModel> =>
     this.afs
@@ -36,9 +47,21 @@ export class UsuariosService {
     this.afs
       .collection(UsuariosService.basePath)
       .snapshotChanges()
-      .pipe<BaseEntity<UsuarioModel>>(
+      .pipe<UsuarioModel[]>(
         first(),
-        map(documentChangeActionToEntities('uid')),
+        map(documentChangeActionToList('uid')),
+        catchError(error => throwError(error.message))
+      );
+
+  getAllPassageiros = () =>
+    this.afs
+      .collection(UsuariosService.basePath, ref =>
+        ref.where('perfil', '==', 'passageiro')
+      )
+      .snapshotChanges()
+      .pipe<UsuarioModel[]>(
+        first(),
+        map(documentChangeActionToList('uid')),
         catchError(error => throwError(error.message))
       );
 
