@@ -1,11 +1,11 @@
 import * as firebase from 'firebase-admin';
 
-export class CorridasService {
-  static readonly basePath = 'corridas';
+export class ViagensService {
+  static readonly basePath = 'viagens';
 
   static getByTaxaId = (taxaId: string) =>
     firebase
       .firestore()
-      .collection(CorridasService.basePath)
+      .collection(ViagensService.basePath)
       .where('taxa_id', '==', taxaId);
 }

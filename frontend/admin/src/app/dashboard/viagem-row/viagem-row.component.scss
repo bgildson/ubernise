@@ -1,0 +1,89 @@
+.expansion-header {
+  display: flex;
+  flex: 1;
+  align-items: center;
+
+  .date {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 12px;
+
+    .day {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .month {
+      font-size: 10px;
+      color: grey;
+    }
+  }
+  .places {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    >div {
+      display: flex;
+
+      .flag {
+        min-width: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        &.origin {
+          &::before {
+            content: ' ';
+            width: 6px;
+            height: 6px;
+            border-radius: 100%;
+            background: black;
+            position: absolute;
+          }
+          .line {
+            align-self: flex-end;
+          }
+        }
+        &.target {
+          &::after {
+            content: ' ';
+            width: 0;
+            height: 0;
+            border-top: 5px solid black;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            position: absolute;
+          }
+          .line {
+            align-self: flex-start;
+          }
+        }
+        .line {
+          height: 50%;
+          width: 2px;
+          background: black;
+        }
+      }
+    }
+  }
+  .date {
+    display: table;
+  }
+}
+.ride-content {
+  display: flex;
+  flex-direction: column;
+
+  >span {
+    margin-bottom: 10px;
+  }
+  .label {
+    font-weight: bold;
+  }
+  .passengers {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

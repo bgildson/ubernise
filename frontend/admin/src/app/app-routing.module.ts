@@ -11,12 +11,20 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: '',
+        loadChildren: './dashboard/dashboard.module#DashboardModule'
+      },
+      {
         path: 'carteiras',
         loadChildren: './carteiras/carteiras.module#CarteirasModule'
       },
       {
         path: 'taxas',
         loadChildren: './taxas/taxas.module#TaxasModule'
+      },
+      {
+        path: 'viagens',
+        loadChildren: './viagens/viagens.module#ViagensModule'
       }
     ]
   }

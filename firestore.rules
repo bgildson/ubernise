@@ -42,5 +42,10 @@ service cloud.firestore {
                         campoNaoAlterado('perfil'));
       allow create, delete: if false;
     }
+
+    match /viagens/{viagem} {
+      allow read: if autenticado();
+      allow write: if false;
+    }
   }
 }

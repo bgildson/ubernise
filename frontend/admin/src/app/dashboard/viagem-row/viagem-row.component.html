@@ -1,0 +1,32 @@
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <div class="expansion-header">
+      <div class="date">
+        <span class="day">{{ viagem.data_inicio | date: 'dd' }}</span>
+        <span class="month">{{ viagem.data_inicio | date: 'MMM' | uppercase }}</span>
+      </div>
+      <div class="places">
+        <div>
+          <div class="flag origin">
+            <div class="line"></div>
+          </div>
+          <span>{{ viagem.origem }}</span>
+        </div>
+        <div>
+          <div class="flag target">
+            <div class="line"></div>
+          </div>
+          <span>{{ viagem.destino }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel-header>
+  <div class="ride-content">
+    <span class="label">Status</span>
+    <span>{{ viagemStatusDescriptions[viagem.status] }}</span>
+    <span class="label">Passageiros</span>
+    <div class="passengers">
+      <usuario-tile *ngFor="let passageiro of viagem.passageiros" [usuario]="passageiro"></usuario-tile>
+    </div>
+  </div>
+</mat-expansion-panel>

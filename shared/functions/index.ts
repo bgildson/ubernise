@@ -56,7 +56,7 @@ export const parseFormValueToQueryParams = formValue =>
       value !== null && value !== undefined
         ? { ...params, [key]: value }
         : params,
-    {}
+    <any>{}
   );
 
 export const listToEntitiesOrdenation = (pk: string = 'id') => list =>

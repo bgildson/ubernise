@@ -4,7 +4,7 @@ import * as moment from 'moment';
 
 import { TaxaModel } from '../../../shared/models';
 import { parseStringToNumber } from '../../../shared/functions';
-import { CorridasService, TaxasService } from '../services';
+import { ViagensService, TaxasService } from '../services';
 import { authenticatedAndUsuarioWithPerfilIn } from './shared';
 
 export const taxasCreate = functions.https.onCall(
@@ -64,11 +64,11 @@ export const taxasDelete = functions.https.onCall(async (taxaId, context) => {
     'motorista'
   ]);
 
-  const corridasSnap = await CorridasService.getByTaxaId(taxaId).get();
-  if (!corridasSnap.empty)
+  const viagensSnap = await ViagensService.getByTaxaId(taxaId).get();
+  if (!viagensSnap.empty)
     throw new functions.https.HttpsError(
       'failed-precondition',
-      'Não foi possível deletar a taxa, já existem corridas utilizando esta taxa!'
+      'Não foi possível deletar a taxa, já existem viagens utilizando esta taxa!'
     );
 
   const taxaSnap = await TaxasService.getById(taxaId).get();

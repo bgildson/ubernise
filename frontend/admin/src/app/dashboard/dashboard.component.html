@@ -1,0 +1,8 @@
+<div class="container">
+  <div class="content">
+    <div class="content-padding">
+      <h3>Viagens Recentes</h3>
+      <viagem-row *ngFor="let viagem of recentsViagens$ | async" [viagem]="viagem"></viagem-row>
+    </div>
+  </div>
+</div>

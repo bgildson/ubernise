@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="content">
+    <div>
+      <breadcrumb title="Viagens"></breadcrumb>
+      <div class="content-padding">
+        <mat-card>
+          <form [formGroup]="form" (submit)="onSearch()">
+            <mat-form-field>
+              <input matInput formControlName="data_inicial" [matDatepicker]="dataInicial" placeholder="Data Inicial">
+              <mat-datepicker-toggle matSuffix [for]="dataInicial"></mat-datepicker-toggle>
+              <mat-datepicker touchUi #dataInicial></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput formControlName="data_final" [matDatepicker]="dataFinal" placeholder="Data Final">
+              <mat-datepicker-toggle matSuffix [for]="dataFinal"></mat-datepicker-toggle>
+              <mat-datepicker touchUi #dataFinal></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-select formControlName="usuario_uid" placeholder="Passageiro">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let usuario of usuarios$ | async" [value]="usuario.uid">{{ usuario.nome_exibicao }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-select formControlName="status" placeholder="Status">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let status of viagensStatusValuesDescriptions" [value]="status.value">{{ status.description }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </mat-card>
+      </div>
+
+      <div class="content-padding" style="padding-top: 0;">
+        <content-spinner [loading]="loading$ | async">
+          <mat-card class="card-result">
+            <div class="table-container">
+              <table
+                mat-table
+                [dataSource]="dataSource">
+
+                <ng-container matColumnDef="origem">
+                  <th mat-header-cell *matHeaderCellDef>Origem</th>
+                  <td mat-cell *matCellDef="let element">{{ element.origem }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="destino">
+                  <th mat-header-cell *matHeaderCellDef>Destino</th>
+                  <td mat-cell *matCellDef="let element">{{ element.destino }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="descricao">
+                  <th mat-header-cell *matHeaderCellDef>Descrição</th>
+                  <td mat-cell *matCellDef="let element">{{ element.descricao }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="data_inicio">
+                  <th mat-header-cell *matHeaderCellDef>Data Início</th>
+                  <td mat-cell *matCellDef="let element">{{ element.data_inicio | date: 'dd/MM/yyyy HH:mm' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="data_fim">
+                  <th mat-header-cell *matHeaderCellDef>Data Fim</th>
+                  <td mat-cell *matCellDef="let element">{{ element.data_fim | date: 'dd/MM/yyyy HH:mm' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <td mat-cell *matCellDef="let element">{{ viagensStatusDescriptions[element.status] }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="taxa_valor">
+                  <th mat-header-cell *matHeaderCellDef>Taxa</th>
+                  <td mat-cell *matCellDef="let element">{{ element.taxa_valor | currency: 'BRL' }}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="tableHeaders; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableHeaders">{{ row }}</tr>
+              </table>
+            </div>
+            <mat-paginator
+              pageSize="10"
+              [length]="(viagens$ | async).length"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+          </mat-card>
+        </content-spinner>
+      </div>
+    </div>
+  </div>
+  <actionbar>
+    <div class="spacer"></div>
+    <button mat-icon-button [disabled]="loading$ | async" (click)="onSearch()">
+      <mat-icon>search</mat-icon>
+    </button>
+  </actionbar>
+</div>

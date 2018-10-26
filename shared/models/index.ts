@@ -5,3 +5,4 @@ export * from './configuracao.model';
 export * from './movimentacao.model';
 export * from './taxa.model';
 export * from './usuario.model';
+export * from './viagem.model';

@@ -1,0 +1,44 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+.card-result {
+  padding: 0;
+
+  .table-container {
+    overflow: auto;
+  
+    table {
+      min-width: 850px;
+      width: 100%;
+  
+      .mat-column-origem {
+        width: 200px;
+      }
+      .mat-column-destino {
+        width: 200px;
+      }
+      .mat-column-data_inicio {
+        width: 100px;
+        text-align: center;
+      }
+      .mat-column-data_fim {
+        width: 100px;
+        text-align: center;
+      }
+      .mat-column-status {
+        width: 150px;
+        text-align: center;
+      }
+      .mat-column-taxa_valor {
+        width: 100px;
+        text-align: center;
+      }
+      .mat-column-actions {
+        width: 40px;
+        padding: 0;
+        text-align: center;
+      }
+    }
+  }
+}

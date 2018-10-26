@@ -6,6 +6,42 @@
         { "fieldPath": "usuario_uid", "mode": "ASCENDING" },
         { "fieldPath": "data", "mode": "DESCENDING" }
       ]
+    },
+    {
+      "collectionId": "usuarios",
+      "fields": [
+        { "fieldPath": "nome_exibicao", "mode": "ASCENDING" },
+        { "fieldPath": "perfil", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionId": "viagens",
+      "fields": [
+        { "fieldPath": "passageiros", "mode": "ARRAY_CONTAINS" },
+        { "fieldPath": "data_inicio", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "viagens",
+      "fields": [
+        { "fieldPath": "status", "mode": "ASCENDING" },
+        { "fieldPath": "data_inicio", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "viagens",
+      "fields": [
+        { "fieldPath": "passageiros", "mode": "ARRAY_CONTAINS" },
+        { "fieldPath": "status", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionId": "viagens",
+      "fields": [
+        { "fieldPath": "data_inicio", "mode": "DESCENDING" },
+        { "fieldPath": "passageiros", "mode": "ARRAY_CONTAINS" },
+        { "fieldPath": "status", "mode": "ASCENDING" }
+      ]
     }
   ]
 }
