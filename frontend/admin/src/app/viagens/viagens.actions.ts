@@ -35,3 +35,23 @@ export class LoadRecentsViagensFailAction {
 
   constructor(public message: string) {}
 }
+
+export class CreateViagemAgendadaAction {
+  static readonly type = '[viagens] create viagem agendada';
+
+  constructor(
+    public viagem: { origem: string; destino: string; data_agendamento: Date }
+  ) {}
+}
+
+export class CreateViagemAgendadaSuccessAction {
+  static readonly type = '[viagens] create viagem agendada success';
+
+  constructor(public viagem: ViagemModel) {}
+}
+
+export class CreateViagemAgendadaFailAction {
+  static readonly type = '[viagens] create viagem agendada fail';
+
+  constructor(public message: string) {}
+}

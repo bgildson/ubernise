@@ -8,8 +8,8 @@ export class ViagemModel {
   taxa_id: string;
   taxa_valor: number;
   data_agendamento: Date;
-  data_inicio: Date;
-  data_fim: Date;
+  data_inicial: Date;
+  data_final: Date;
   status: ViagemStatus;
   passageiros: string[] | Partial<UsuarioModel>[];
 }

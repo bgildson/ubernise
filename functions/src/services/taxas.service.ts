@@ -17,4 +17,14 @@ export class TaxasService {
       .firestore()
       .collection(TaxasService.basePath)
       .where('data_final', '==', dataFinal);
+
+  static getOlderThanData = data =>
+    firebase
+      .firestore()
+      .collection(TaxasService.basePath)
+      .where('data_inicial', '<=', data)
+      .orderBy('data_inicial', 'desc')
+      .get();
+
+  static getCurrent = () => TaxasService.getOlderThanData(new Date());
 }

@@ -17,6 +17,7 @@
     height: 60px;
   }
   mat-dialog-actions {
-    justify-content: right;
+    display: flex;
+    justify-content: flex-end;
   }
 }

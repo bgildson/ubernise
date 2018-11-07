@@ -17,6 +17,7 @@ mat-drawer-container {
     mat-toolbar {
       position: absolute;
       right: 0;
+      z-index: 1;
 
       img {
         width: 32px;

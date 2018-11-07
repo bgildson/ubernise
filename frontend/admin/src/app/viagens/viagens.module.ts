@@ -10,7 +10,8 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatTableModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatDialogModule
 } from '@angular/material';
 import { NgxsModule } from '@ngxs/store';
 
@@ -18,6 +19,7 @@ import { ActionbarModule } from '@admin/actionbar/actionbar.module';
 import { BreadcrumbModule } from '@admin/breadcrumb/breadcrumb.module';
 import { ContentSpinnerModule } from '@admin/content-spinner/content-spinner.module';
 import { UsuariosState } from '@admin/usuarios/usuarios.state';
+import { ViagemFormModalModule } from '@admin/viagem-form-modal/viagem-form-modal.module';
 import { ViagensRoutingModule } from './viagens-routing.module';
 import { SearchComponent } from './search/search.component';
 import { ViagensService } from './viagens.service';
@@ -32,6 +34,7 @@ import { ViagensState } from './viagens.state';
     MatButtonModule,
     MatCardModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatIconModule,
     MatInputModule,
     MatNativeDateModule,
@@ -40,7 +43,8 @@ import { ViagensState } from './viagens.state';
     MatTableModule,
     ActionbarModule,
     BreadcrumbModule,
-    ContentSpinnerModule
+    ContentSpinnerModule,
+    ViagemFormModalModule
   ],
   declarations: [SearchComponent],
   providers: [ViagensService]

@@ -1,0 +1,16 @@
+form {
+  display: flex;
+  flex-direction: column;
+
+  mat-form-field {
+    min-width: 240px;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      margin-left: 5px;
+    }
+  }
+}

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { combineLatest, throwError, of } from 'rxjs';
+import { combineLatest, throwError } from 'rxjs';
 import { map, catchError, mergeMap, startWith } from 'rxjs/operators';
 
 import { documentChangeActionToList, listToEntities } from '@shared/functions';
 import { ViagemModel } from '@shared/models';
 import { UsuariosService } from '@admin/usuarios/usuarios.service';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 export const parseViagens = viagens =>
   viagens.map(
@@ -15,8 +16,8 @@ export const parseViagens = viagens =>
         data_agendamento: viagem.data_agendamento
           ? viagem.data_agendamento.toDate()
           : null,
-        data_inicio: viagem.data_inicio ? viagem.data_inicio.toDate() : null,
-        data_fim: viagem.data_fim ? viagem.data_fim.toDate() : null
+        data_inicial: viagem.data_inicial ? viagem.data_inicial.toDate() : null,
+        data_final: viagem.data_final ? viagem.data_final.toDate() : null
       }
   );
 
@@ -28,6 +29,7 @@ export class ViagensService {
 
   constructor(
     private afs: AngularFirestore,
+    private functions: AngularFireFunctions,
     private usuariosService: UsuariosService
   ) {}
 
@@ -36,13 +38,13 @@ export class ViagensService {
       .collection(ViagensService.basePath, ref => {
         let _ref = <any>ref;
         if (query.data_inicial) {
-          _ref = _ref.where('data_inicio', '>=', query.data_inicial);
+          _ref = _ref.where('data_inicial', '>=', query.data_inicial);
         }
         if (query.data_final) {
-          _ref = _ref.where('data_inicio', '<=', query.data_final);
+          _ref = _ref.where('data_inicial', '<=', query.data_final);
         }
         if (query.data_inicial || query.data_final) {
-          _ref = _ref.orderBy('data_inicio', 'desc');
+          _ref = _ref.orderBy('data_inicial', 'desc');
         }
         if (query.usuario_uid) {
           _ref = _ref.where('passageiros', 'array-contains', query.usuario_uid);
@@ -85,7 +87,10 @@ export class ViagensService {
   searchRecents = () =>
     this.afs
       .collection(ViagensService.basePath, ref =>
-        ref.orderBy('data_inicio', 'desc').limit(5)
+        ref
+          .where('status', '==', 'finalizada')
+          .orderBy('data_inicial', 'desc')
+          .limit(5)
       )
       .snapshotChanges()
       .pipe<ViagemModel[]>(
@@ -102,7 +107,6 @@ export class ViagensService {
               this.usuariosService.getByUid(passageiroUid)
             )
           ).pipe(
-            // startWith([]),
             map(listToEntities('uid')),
             map(usuariosEntities =>
               viagens.map(viagem => {
@@ -118,4 +122,13 @@ export class ViagensService {
         }),
         catchError(error => throwError(error.message))
       );
+
+  createAgendada = (viagem: {
+    origem: string;
+    destino: string;
+    data_agendamento;
+  }) =>
+    this.functions
+      .httpsCallable('viagensCreateAgendada')(viagem)
+      .pipe(catchError(error => throwError(error.message)));
 }
