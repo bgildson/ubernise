@@ -13,6 +13,10 @@
       "es2017",
       "dom"
     ],
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": ["../shared/*"]
+    }
   },
   "compileOnSave": true,
   "include": [
