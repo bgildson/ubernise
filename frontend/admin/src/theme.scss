@@ -100,7 +100,7 @@ $admin-warn-palette: (
   )
 );
 // http://mcg.mbitson.com/#!?mcgpalette0=%23496b52
-$ubernise-green-palette: (
+$admin-green-palette: (
   50 : #e9edea,
   100 : #c8d3cb,
   200 : #a4b5a9,
@@ -133,11 +133,10 @@ $ubernise-green-palette: (
   )
 );
 
-// define 3 theme color
-// mat-palette accepts $palette-name, main, lighter and darker variants
 $primary: mat-palette($admin-primary-palette, 700, 300, 900);
 $accent: mat-palette($admin-accent-palette);
 $warn: mat-palette($admin-warn-palette, 500);
+$success: mat-palette($admin-green-palette, 500);
 
 $admin-theme: mat-light-theme(
   $primary,
