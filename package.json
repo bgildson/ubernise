@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/bgildson/ubernise#readme",
   "devDependencies": {
-    "firebase-tools": "^4.2.1"
+    "firebase-tools": "^6.0.1"
   }
 }
