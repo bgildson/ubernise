@@ -2,8 +2,8 @@ import * as firebase from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as moment from 'moment';
 
-import { TaxaModel } from '@shared/models';
-import { parseStringToNumber } from '@shared/functions';
+import { TaxaModel } from '../../../shared/models';
+import { parseStringToNumber } from '../../../shared/functions';
 import { ViagensService, TaxasService } from '../services';
 import { authenticatedAndUsuarioWithPerfilIn } from './shared';
 

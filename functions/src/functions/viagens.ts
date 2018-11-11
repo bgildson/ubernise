@@ -6,7 +6,7 @@ import {
   TaxaModel,
   MovimentacaoModel,
   CarteiraModel
-} from '@shared/models';
+} from '../../../shared/models';
 import {
   ViagensService,
   TaxasService,

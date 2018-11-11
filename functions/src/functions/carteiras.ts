@@ -1,8 +1,8 @@
 import * as firebase from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
-import { parseStringToNumber } from '@shared/functions';
-import { CarteiraModel, MovimentacaoModel } from '@shared/models';
+import { parseStringToNumber } from '../../../shared/functions';
+import { CarteiraModel, MovimentacaoModel } from '../../../shared/models';
 import { CarteirasService, MovimentacoesService } from '../services';
 import { authenticatedAndUsuarioWithPerfilIn } from './shared';
 
