@@ -1,3 +1,6 @@
+h3 {
+  margin-top: 0;
+}
 form {
   display: flex;
   flex-direction: column;
@@ -5,12 +8,7 @@ form {
   mat-form-field {
     min-width: 240px;
   }
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-
-    button {
-      margin-left: 5px;
-    }
-  }
+}
+mat-dialog-actions {
+  justify-content: flex-end;
 }

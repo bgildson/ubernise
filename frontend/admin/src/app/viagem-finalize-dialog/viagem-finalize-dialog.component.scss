@@ -1,6 +1,10 @@
+h3 {
+  margin: 0;
+}
 .passageiros {
   display: flex;
   margin-top: 10px;
+  flex-wrap: wrap;
 
   usuario-tile {
     margin: 0 3px 5px 3px;

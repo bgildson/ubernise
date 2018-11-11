@@ -1,14 +1,16 @@
-<form [formGroup]="form" (submit)="onCreate()">
-  <mat-form-field>
-    <input type="text" matInput formControlName="origem" placeholder="Origem">
-  </mat-form-field>
-
-  <mat-form-field>
-    <input type="text" matInput formControlName="destino" placeholder="Destino">
-  </mat-form-field>
-
-  <div class="actions">
+<div>
+  <h3 matDialogTitle>Nova viagem</h3>
+  <form mat-dialog-content [formGroup]="form" (submit)="onCreate()">
+    <mat-form-field>
+      <input type="text" matInput formControlName="origem" placeholder="Origem">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <input type="text" matInput formControlName="destino" placeholder="Destino">
+    </mat-form-field>
+  </form>
+  <mat-dialog-actions>
     <button type="button" mat-button [disabled]="creating$ | async" (click)="onCancel()">Cancelar</button>
     <button mat-raised-button color="primary" [disabled]="creating$ | async">Criar</button>
-  </div>
-</form>
+  </mat-dialog-actions>
+</div>
