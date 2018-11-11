@@ -35,3 +35,7 @@ jobs:
       - deploy:
           name: deploy apps
           command: npm run deploy
+
+      - store_artifacts:
+          path: ~/.npm/_logs/
+          destination: npm-logs
