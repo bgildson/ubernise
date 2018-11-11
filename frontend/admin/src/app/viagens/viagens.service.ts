@@ -123,12 +123,23 @@ export class ViagensService {
         catchError(error => throwError(error.message))
       );
 
-  createAgendada = (viagem: {
-    origem: string;
-    destino: string;
-    data_agendamento;
-  }) =>
+  create = (viagem: { origem: string; destino: string; data_agendamento }) =>
     this.functions
-      .httpsCallable('viagensCreateAgendada')(viagem)
+      .httpsCallable('viagensCreate')(viagem)
+      .pipe(catchError(error => throwError(error.message)));
+
+  start = (id: string) =>
+    this.functions
+      .httpsCallable('viagensStart')(id)
+      .pipe(catchError(error => throwError(error.message)));
+
+  finalize = (data: { id: string; passageiros: string[] }) =>
+    this.functions
+      .httpsCallable('viagensFinalize')(data)
+      .pipe(catchError(error => throwError(error.message)));
+
+  cancel = (id: string) =>
+    this.functions
+      .httpsCallable('viagensCancel')(id)
       .pipe(catchError(error => throwError(error.message)));
 }

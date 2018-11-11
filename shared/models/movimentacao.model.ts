@@ -7,6 +7,6 @@ export class MovimentacaoModel {
   tipo: MovimentacaoTipo;
   operacao: MovimentacaoOperacao;
   valor: number;
-  corrida_id?: string;
+  viagem_id?: string;
   observacao?: string;
 }

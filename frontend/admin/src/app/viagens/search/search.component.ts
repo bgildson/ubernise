@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,7 +14,13 @@ import { ViagemStatus } from '@shared/types';
 import { ShowGlobalSnackBarAction } from '@admin/app.actions';
 import { UsuariosState } from '@admin/usuarios/usuarios.state';
 import { ViagemFormModalComponent } from '@admin/viagem-form-modal/viagem-form-modal.component';
-import { SearchViagensAction } from '../viagens.actions';
+import { ConfirmDialogComponent } from '@admin/confirm-dialog/confirm-dialog.component';
+import { ViagemFinalizeDialogComponent } from '@admin/viagem-finalize-dialog/viagem-finalize-dialog.component';
+import {
+  SearchViagensAction,
+  StartViagemAction,
+  CancelViagemAction
+} from '../viagens.actions';
 import { ViagensState } from '../viagens.state';
 
 @Component({
@@ -27,8 +33,13 @@ export class SearchComponent {
   viagens$: Observable<ViagemModel[]>;
   @Select(ViagensState.loading)
   loading$: Observable<boolean>;
+  @Select(ViagensState.waiting)
+  waiting$: Observable<boolean>;
   @Select(UsuariosState.usuarios)
   usuarios$: Observable<UsuarioModel[]>;
+
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
 
   destroyed$ = new Subject<boolean>();
 
@@ -38,7 +49,8 @@ export class SearchComponent {
     'data_inicial',
     'data_final',
     'status',
-    'taxa_valor'
+    'taxa_valor',
+    'actions'
   ];
   dataSource = new MatTableDataSource<ViagemModel>();
 
@@ -107,7 +119,7 @@ export class SearchComponent {
         }
       });
 
-    this.loading$
+    this.waiting$
       .pipe(takeUntil(this.destroyed$))
       .subscribe((loading: boolean) => {
         if (loading) {
@@ -122,6 +134,10 @@ export class SearchComponent {
       .subscribe((viagens: ViagemModel[]) => {
         this.dataSource.data = viagens;
       });
+  }
+
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnDestroy() {
@@ -152,5 +168,52 @@ export class SearchComponent {
         new ShowGlobalSnackBarAction('Preencha pelo menos um campo de filtro!')
       );
     }
+  }
+
+  onStart(id: string) {
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          message: 'Deseja iniciar esta viagem?'
+        }
+      })
+      .afterClosed()
+      .subscribe(result => {
+        if (result) this.store.dispatch(new StartViagemAction(id));
+      });
+  }
+
+  onFinalize(id: string) {
+    this.dialog
+      .open(ViagemFinalizeDialogComponent, {
+        data: { id }
+      })
+      .afterClosed()
+      .subscribe();
+  }
+
+  onCancel(id: string) {
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          message: 'Deseja cancelar esta viagem?'
+        }
+      })
+      .afterClosed()
+      .subscribe(result => {
+        if (result) this.store.dispatch(new CancelViagemAction(id));
+      });
+  }
+
+  canStart(viagem: ViagemModel) {
+    return viagem.status === 'aguardando';
+  }
+
+  canFinalize(viagem: ViagemModel) {
+    return viagem.status === 'iniciada';
+  }
+
+  canCancel(viagem: ViagemModel) {
+    return viagem.status !== 'cancelada';
   }
 }

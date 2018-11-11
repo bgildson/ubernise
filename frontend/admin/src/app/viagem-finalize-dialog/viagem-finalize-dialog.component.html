@@ -1,0 +1,15 @@
+<mat-dialog-content>
+  <span>Quais foram os passageiros?</span>
+
+  <div class="passageiros">
+    <usuario-tile
+      *ngFor="let passageiro of passageiros$ | async"
+      [disabled]="finalizing$ | async"
+      [usuario]="passageiro"
+      (toggle)="updatePassageiros(passageiro, $event)"></usuario-tile>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [disabled]="finalizing$ | async" (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="finalizing$ | async" (click)="onFinalize()">Finalizar</button>
+</mat-dialog-actions>

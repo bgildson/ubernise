@@ -1,19 +1,32 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { UsuarioModel } from '@shared/models';
 
 @Component({
   selector: 'usuario-tile',
   templateUrl: './usuario-tile.component.html',
   styleUrls: ['./usuario-tile.component.scss'],
-  host: {
-    '(click)': '_click($event)'
-  }
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsuarioTileComponent {
   @Input()
+  canToggle: boolean = true;
+  @Input()
+  disabled: boolean = false;
+  @Input()
+  selected: boolean = false;
+  @Input()
   usuario: UsuarioModel;
+  @Output()
+  toggle = new EventEmitter<boolean>();
 
-  _click($event) {
-    console.log('clicked!');
+  onToggle() {
+    if (this.canToggle && !this.disabled)
+      this.toggle.emit((this.selected = !this.selected));
   }
 }

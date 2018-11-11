@@ -1,9 +1,11 @@
-:host {
+@import '../../theme.scss';
+
+div {
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 52px;
-  padding: 5px;
+  padding: 10px 5px;
 
   img {
     height: 32px;
@@ -17,5 +19,19 @@
     text-align: center;
     max-width: 100%;
     overflow: hidden;
+  }
+  &.disabled {
+    background: #EEE;
+    color: black;
+    filter: grayscale(100%);
+  }
+  &.selected {
+    border-radius: 3px;
+    background: mat-color($accent, 500);
+    color: white;
+
+    &.disabled {
+      background: #BBB;
+    }
   }
 }

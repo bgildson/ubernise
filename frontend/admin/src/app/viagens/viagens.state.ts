@@ -1,7 +1,10 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
+import { listToEntitiesOrdenation } from '@shared/functions';
 import { BaseStateModel, ViagemModel } from '@shared/models';
-import { ViagensService } from './viagens.service';
+import { ShowGlobalSnackBarAction } from '@admin/app.actions';
 import {
   LoadRecentsViagensAction,
   LoadRecentsViagensFailAction,
@@ -9,22 +12,28 @@ import {
   SearchViagensAction,
   SearchViagensSuccessAction,
   SearchViagensFailAction,
-  CreateViagemAgendadaAction,
-  CreateViagemAgendadaSuccessAction,
-  CreateViagemAgendadaFailAction
+  CreateViagemAction,
+  CreateViagemSuccessAction,
+  CreateViagemFailAction,
+  StartViagemAction,
+  StartViagemSuccessAction,
+  StartViagemFailAction,
+  FinalizeViagemAction,
+  FinalizeViagemFailAction,
+  FinalizeViagemSuccessAction,
+  CancelViagemAction,
+  CancelViagemSuccessAction,
+  CancelViagemFailAction
 } from './viagens.actions';
-import { of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
-import { ShowGlobalSnackBarAction } from '@admin/app.actions';
-import { listToEntitiesOrdenation } from '@shared/functions';
-import { CreateTaxaFailAction } from '@admin/taxas/taxas.actions';
+import { ViagensService } from './viagens.service';
 
 export class ViagensStateModel extends BaseStateModel<ViagemModel> {
   recents: ViagemModel[];
   recentsLoading: boolean;
   creating: boolean;
   starting: boolean;
+  finalizing: boolean;
+  canceling: boolean;
 }
 
 export const defaultState: ViagensStateModel = {
@@ -34,7 +43,9 @@ export const defaultState: ViagensStateModel = {
   recents: [],
   recentsLoading: false,
   creating: false,
-  starting: false
+  starting: false,
+  finalizing: false,
+  canceling: false
 };
 
 @State({
@@ -57,6 +68,20 @@ export class ViagensState {
   @Selector()
   static creating({ creating }: ViagensStateModel) {
     return creating;
+  }
+  @Selector()
+  static finalizing({ finalizing }: ViagensStateModel) {
+    return finalizing;
+  }
+  @Selector()
+  static waiting(state: ViagensStateModel) {
+    return (
+      state.loading ||
+      state.creating ||
+      state.starting ||
+      state.finalizing ||
+      state.canceling
+    );
   }
 
   constructor(private viagensService: ViagensService) {}
@@ -145,22 +170,22 @@ export class ViagensState {
     return ctx.dispatch(new ShowGlobalSnackBarAction(message));
   }
 
-  @Action(CreateViagemAgendadaAction)
-  createViagemAgendada(
+  @Action(CreateViagemAction)
+  createViagem(
     ctx: StateContext<ViagensStateModel>,
-    { viagem }: CreateViagemAgendadaAction
+    { viagem }: CreateViagemAction
   ) {
     ctx.patchState({
       creating: true
     });
 
-    return this.viagensService.createAgendada(viagem).pipe(
-      tap(v => ctx.dispatch(new CreateViagemAgendadaSuccessAction(v))),
-      catchError(message => ctx.dispatch(new CreateTaxaFailAction(message)))
+    return this.viagensService.create(viagem).pipe(
+      tap(v => ctx.dispatch(new CreateViagemSuccessAction(v))),
+      catchError(message => ctx.dispatch(new CreateViagemFailAction(message)))
     );
   }
 
-  @Action(CreateViagemAgendadaSuccessAction)
+  @Action(CreateViagemSuccessAction)
   createViagemSuccess(ctx: StateContext<ViagensStateModel>) {
     ctx.patchState({
       creating: false
@@ -169,13 +194,118 @@ export class ViagensState {
     return ctx.dispatch(new ShowGlobalSnackBarAction('Viagem criada!'));
   }
 
-  @Action(CreateViagemAgendadaFailAction)
+  @Action(CreateViagemFailAction)
   createViagemFail(
     ctx: StateContext<ViagensStateModel>,
-    { message }: CreateViagemAgendadaFailAction
+    { message }: CreateViagemFailAction
   ) {
     ctx.patchState({
       creating: false
+    });
+
+    return ctx.dispatch(new ShowGlobalSnackBarAction(message));
+  }
+
+  @Action(StartViagemAction)
+  startViagem(ctx: StateContext<ViagensStateModel>, { id }: StartViagemAction) {
+    ctx.patchState({
+      starting: true
+    });
+
+    return this.viagensService.start(id).pipe(
+      tap(() => ctx.dispatch(new StartViagemSuccessAction())),
+      catchError(message => ctx.dispatch(new StartViagemFailAction(message)))
+    );
+  }
+
+  @Action(StartViagemSuccessAction)
+  startViagemSuccess(ctx: StateContext<ViagensStateModel>) {
+    ctx.patchState({
+      starting: false
+    });
+
+    return ctx.dispatch(new ShowGlobalSnackBarAction('Viagem iniciada!'));
+  }
+
+  @Action(StartViagemFailAction)
+  startViagemFail(
+    ctx: StateContext<ViagensStateModel>,
+    { message }: StartViagemFailAction
+  ) {
+    ctx.patchState({
+      starting: false
+    });
+
+    return ctx.dispatch(new ShowGlobalSnackBarAction(message));
+  }
+
+  @Action(FinalizeViagemAction)
+  finalizeViagem(
+    ctx: StateContext<ViagensStateModel>,
+    { data }: FinalizeViagemAction
+  ) {
+    ctx.patchState({
+      finalizing: true
+    });
+
+    return this.viagensService.finalize(data).pipe(
+      tap(() => ctx.dispatch(new FinalizeViagemSuccessAction())),
+      catchError(message => ctx.dispatch(new FinalizeViagemFailAction(message)))
+    );
+  }
+
+  @Action(FinalizeViagemSuccessAction)
+  finalizeViagemSuccess(ctx: StateContext<ViagensStateModel>) {
+    ctx.patchState({
+      finalizing: false
+    });
+
+    return ctx.dispatch(new ShowGlobalSnackBarAction('Viagem finalizada!'));
+  }
+
+  @Action(FinalizeViagemFailAction)
+  finalizeViagemFail(
+    ctx: StateContext<ViagensStateModel>,
+    { message }: FinalizeViagemFailAction
+  ) {
+    ctx.patchState({
+      finalizing: false
+    });
+
+    return ctx.dispatch(new ShowGlobalSnackBarAction(message));
+  }
+
+  @Action(CancelViagemAction)
+  cancelViagem(
+    ctx: StateContext<ViagensStateModel>,
+    { id }: CancelViagemAction
+  ) {
+    ctx.patchState({
+      canceling: true
+    });
+
+    return this.viagensService.cancel(id).pipe(
+      tap(() => ctx.dispatch(new CancelViagemSuccessAction())),
+      catchError(message => ctx.dispatch(new CancelViagemFailAction(message)))
+    );
+  }
+
+  @Action(CancelViagemSuccessAction)
+  cancelViagemSuccess(ctx: StateContext<ViagensStateModel>) {
+    ctx.patchState({
+      canceling: false
+    });
+
+    return ctx.dispatch(new ShowGlobalSnackBarAction('Viagem cancelada!'));
+  }
+
+  @Action(CancelViagemFailAction)
+  cancelViagemFail(
+    ctx: StateContext<ViagensStateModel>,
+    { message }: CancelViagemFailAction
+  ) {
+    ctx.patchState({
+      canceling: false
     });
 
     return ctx.dispatch(new ShowGlobalSnackBarAction(message));

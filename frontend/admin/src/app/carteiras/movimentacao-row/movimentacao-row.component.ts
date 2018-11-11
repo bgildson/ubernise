@@ -9,7 +9,7 @@ import { MovimentacaoModel } from '@shared/models';
 export class MovimentacaoRowComponent {
   movimentacaoOperacoesDescriptions = {
     credito: 'Crédito',
-    corrida: 'Corrida',
+    viagem: 'Viagem',
     ajuste: 'Ajuste'
   };
 

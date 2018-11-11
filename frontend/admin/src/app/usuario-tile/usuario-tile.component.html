@@ -1,2 +1,4 @@
-<img [src]="usuario.imagem_url" alt="Foto do Usuário">
-<span>{{ usuario.nome_exibicao }}</span>
+<div [class.selected]="selected" [class.disabled]="disabled" (click)="onToggle()">
+  <img [src]="usuario.imagem_url" alt="Foto do Usuário">
+  <span>{{ usuario.nome_exibicao }}</span>
+</div>

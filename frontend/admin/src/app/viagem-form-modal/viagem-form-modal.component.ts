@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Store, Select, Actions, ofAction } from '@ngxs/store';
 import {
-  CreateViagemAgendadaAction,
-  CreateViagemAgendadaSuccessAction
+  CreateViagemAction,
+  CreateViagemSuccessAction
 } from '@admin/viagens/viagens.actions';
 import { MatDialogRef } from '@angular/material';
 import { ViagensState } from '@admin/viagens/viagens.state';
@@ -48,14 +48,14 @@ export class ViagemFormModalComponent {
     this.actions$
       .pipe(
         takeUntil(this.destroyed$),
-        ofAction(CreateViagemAgendadaSuccessAction),
+        ofAction(CreateViagemSuccessAction),
         tap(() => dialogRef.close())
       )
       .subscribe();
   }
 
   onCreate() {
-    this.store.dispatch(new CreateViagemAgendadaAction(this.form.value));
+    this.store.dispatch(new CreateViagemAction(this.form.value));
   }
 
   onCancel() {

@@ -36,22 +36,70 @@ export class LoadRecentsViagensFailAction {
   constructor(public message: string) {}
 }
 
-export class CreateViagemAgendadaAction {
-  static readonly type = '[viagens] create viagem agendada';
+export class CreateViagemAction {
+  static readonly type = '[viagens] create viagem';
 
   constructor(
     public viagem: { origem: string; destino: string; data_agendamento: Date }
   ) {}
 }
 
-export class CreateViagemAgendadaSuccessAction {
-  static readonly type = '[viagens] create viagem agendada success';
+export class CreateViagemSuccessAction {
+  static readonly type = '[viagens] create viagem success';
 
   constructor(public viagem: ViagemModel) {}
 }
 
-export class CreateViagemAgendadaFailAction {
-  static readonly type = '[viagens] create viagem agendada fail';
+export class CreateViagemFailAction {
+  static readonly type = '[viagens] create viagem fail';
+
+  constructor(public message: string) {}
+}
+
+export class StartViagemAction {
+  static readonly type = '[viagens] start viagem';
+
+  constructor(public id: string) {}
+}
+
+export class StartViagemSuccessAction {
+  static readonly type = '[viagens] start viagem success';
+}
+
+export class StartViagemFailAction {
+  static readonly type = '[viagens] start viagem fail';
+
+  constructor(public message: string) {}
+}
+
+export class FinalizeViagemAction {
+  static readonly type = '[viagens] finalize viagem';
+
+  constructor(public data: { id: string; passageiros: string[] }) {}
+}
+
+export class FinalizeViagemSuccessAction {
+  static readonly type = '[viagens] finalize viagem success';
+}
+
+export class FinalizeViagemFailAction {
+  static readonly type = '[viagens] finalize viagem fail';
+
+  constructor(public message: string) {}
+}
+
+export class CancelViagemAction {
+  static readonly type = '[viagens] cancel viagem';
+
+  constructor(public id: string) {}
+}
+
+export class CancelViagemSuccessAction {
+  static readonly type = '[viagens] cancel viagem success';
+}
+
+export class CancelViagemFailAction {
+  static readonly type = '[viagens] cancel viagem fail';
 
   constructor(public message: string) {}
 }

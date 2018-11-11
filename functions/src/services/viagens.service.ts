@@ -9,6 +9,9 @@ export class ViagensService {
       .collection(ViagensService.basePath)
       .doc();
 
+  static getById = (id: string) =>
+    firebase.firestore().doc(`${ViagensService.basePath}/${id}`);
+
   static getByTaxaId = (taxaId: string) =>
     firebase
       .firestore()
