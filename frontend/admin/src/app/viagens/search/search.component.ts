@@ -13,7 +13,7 @@ import { ViagemModel, UsuarioModel } from '@shared/models';
 import { ViagemStatus } from '@shared/types';
 import { ShowGlobalSnackBarAction } from '@admin/app.actions';
 import { UsuariosState } from '@admin/usuarios/usuarios.state';
-import { ViagemFormModalComponent } from '@admin/viagem-form-modal/viagem-form-modal.component';
+import { ViagemCreateDialogComponent } from '@admin/viagem-create-dialog/viagem-create-dialog.component';
 import { ConfirmDialogComponent } from '@admin/confirm-dialog/confirm-dialog.component';
 import { ViagemFinalizeDialogComponent } from '@admin/viagem-finalize-dialog/viagem-finalize-dialog.component';
 import { SearchViagensAction, CancelViagemAction } from '../viagens.actions';
@@ -137,7 +137,7 @@ export class SearchComponent {
 
   onAdd() {
     this.dialog
-      .open(ViagemFormModalComponent)
+      .open(ViagemCreateDialogComponent)
       .afterClosed()
       .subscribe();
   }

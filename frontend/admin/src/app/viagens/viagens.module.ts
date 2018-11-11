@@ -21,12 +21,12 @@ import { BreadcrumbModule } from '@admin/breadcrumb/breadcrumb.module';
 import { ConfirmDialogModule } from '@admin/confirm-dialog/confirm-dialog.module';
 import { ContentSpinnerModule } from '@admin/content-spinner/content-spinner.module';
 import { UsuariosState } from '@admin/usuarios/usuarios.state';
-import { ViagemFormModalModule } from '@admin/viagem-form-modal/viagem-form-modal.module';
+import { ViagemCreateDialogModule } from '@admin/viagem-create-dialog/viagem-create-dialog.module';
+import { ViagemFinalizeDialogModule } from '@admin/viagem-finalize-dialog/viagem-finalize-dialog.module';
 import { ViagensRoutingModule } from './viagens-routing.module';
 import { SearchComponent } from './search/search.component';
 import { ViagensService } from './viagens.service';
 import { ViagensState } from './viagens.state';
-import { ViagemFinalizeDialogModule } from '@admin/viagem-finalize-dialog/viagem-finalize-dialog.module';
 
 @NgModule({
   imports: [
@@ -49,7 +49,7 @@ import { ViagemFinalizeDialogModule } from '@admin/viagem-finalize-dialog/viagem
     BreadcrumbModule,
     ConfirmDialogModule,
     ContentSpinnerModule,
-    ViagemFormModalModule,
+    ViagemCreateDialogModule,
     ViagemFinalizeDialogModule
   ],
   declarations: [SearchComponent],

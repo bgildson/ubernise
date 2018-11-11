@@ -11,11 +11,11 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'viagem-form-modal',
-  templateUrl: './viagem-form-modal.component.html',
-  styleUrls: ['./viagem-form-modal.component.scss']
+  selector: 'viagem-create-dialog',
+  templateUrl: './viagem-create-dialog.component.html',
+  styleUrls: ['./viagem-create-dialog.component.scss']
 })
-export class ViagemFormModalComponent {
+export class ViagemCreateDialogComponent {
   @Select(ViagensState.creating)
   creating$: Observable<boolean>;
   destroyed$ = new Subject<boolean>();
@@ -29,7 +29,7 @@ export class ViagemFormModalComponent {
     private fb: FormBuilder,
     private store: Store,
     private actions$: Actions,
-    private dialogRef: MatDialogRef<ViagemFormModalComponent>
+    private dialogRef: MatDialogRef<ViagemCreateDialogComponent>
   ) {
     this.creating$
       .pipe(
