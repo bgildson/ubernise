@@ -28,9 +28,9 @@ jobs:
           name: build admin app
           command: npm --prefix frontend run build:prod:admin
 
-      # - run:
-      #     name: build wallet app
-      #     command: npm --prefix frontend run build:prod:wallet
+      - run:
+          name: build wallet app
+          command: npm --prefix frontend run build:prod:wallet
 
       - deploy:
           name: deploy apps
