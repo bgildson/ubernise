@@ -22,8 +22,7 @@ export class ViagemFormModalComponent {
 
   form: FormGroup = this.fb.group({
     origem: '',
-    destino: '',
-    data_agendamento: null
+    destino: ''
   });
 
   constructor(

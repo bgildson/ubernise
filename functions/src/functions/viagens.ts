@@ -1,6 +1,5 @@
 import * as firebase from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import * as moment from 'moment';
 
 import {
   ViagemModel,
@@ -18,22 +17,12 @@ import { authenticatedAndUsuarioWithPerfilIn } from './shared';
 
 export const parseViagemToResponse = (viagem: ViagemModel) => ({
   ...viagem,
-  data_agendamento: viagem.data_agendamento
-    ? viagem.data_agendamento.toISOString()
-    : null,
   data_inicial: viagem.data_inicial ? viagem.data_inicial.toISOString() : null,
   data_final: viagem.data_final ? viagem.data_final.toISOString() : null
 });
 
 export const viagensCreate = functions.https.onCall(
-  async (
-    {
-      origem,
-      destino,
-      data_agendamento
-    }: { origem: string; destino: string; data_agendamento },
-    context
-  ) => {
+  async ({ origem, destino }: { origem: string; destino: string }, context) => {
     await authenticatedAndUsuarioWithPerfilIn(context, [
       'administrador',
       'motorista'
@@ -42,65 +31,6 @@ export const viagensCreate = functions.https.onCall(
     const batch = firebase.firestore().batch();
 
     const viagemRef = ViagensService.createRef();
-
-    const dataAgendamento = data_agendamento
-      ? moment(data_agendamento).toDate()
-      : null;
-
-    const hoje = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth(),
-      new Date().getDate()
-    );
-
-    if (dataAgendamento && dataAgendamento < hoje)
-      throw new functions.https.HttpsError(
-        'failed-precondition',
-        'Data de agendamento deve ser posterior a agora!'
-      );
-
-    const viagem = <ViagemModel>{
-      id: viagemRef.id,
-      origem,
-      destino,
-      data_agendamento: dataAgendamento,
-      data_inicial: null,
-      data_final: null,
-      passageiros: [],
-      status: 'aguardando',
-      taxa_id: null,
-      taxa_valor: null
-    };
-
-    batch.create(viagemRef, viagem);
-
-    await batch.commit();
-
-    return parseViagemToResponse(viagem);
-  }
-);
-
-export const viagensStart = functions.https.onCall(
-  async (id: string, context) => {
-    await authenticatedAndUsuarioWithPerfilIn(context, [
-      'administrador',
-      'motorista'
-    ]);
-
-    const viagemSnap = await ViagensService.getById(id).get();
-
-    if (!viagemSnap.exists)
-      throw new functions.https.HttpsError(
-        'not-found',
-        'Viagem não encontrada!'
-      );
-    const viagem = <ViagemModel>viagemSnap.data();
-
-    if (viagem.status !== 'aguardando')
-      throw new functions.https.HttpsError(
-        'failed-precondition',
-        'Viagem não pode ser iniciada!'
-      );
 
     const dataInicial = new Date();
 
@@ -113,22 +43,23 @@ export const viagensStart = functions.https.onCall(
 
     const taxa: TaxaModel = <TaxaModel>taxaSnap.docs[0].data();
 
-    const _viagem = <ViagemModel>{
-      ...viagem,
-      id: viagemSnap.id,
-      status: 'iniciada',
+    const viagem = <ViagemModel>{
+      id: viagemRef.id,
+      origem,
+      destino,
       data_inicial: dataInicial,
+      data_final: null,
+      passageiros: [],
+      status: 'iniciada',
       taxa_id: taxaSnap.docs[0].id,
       taxa_valor: taxa.valor
     };
 
-    const batch = firebase.firestore().batch();
-
-    batch.update(viagemSnap.ref, _viagem);
+    batch.create(viagemRef, viagem);
 
     await batch.commit();
 
-    return parseViagemToResponse(_viagem);
+    return parseViagemToResponse(viagem);
   }
 );
 

@@ -56,22 +56,6 @@ export class CreateViagemFailAction {
   constructor(public message: string) {}
 }
 
-export class StartViagemAction {
-  static readonly type = '[viagens] start viagem';
-
-  constructor(public id: string) {}
-}
-
-export class StartViagemSuccessAction {
-  static readonly type = '[viagens] start viagem success';
-}
-
-export class StartViagemFailAction {
-  static readonly type = '[viagens] start viagem fail';
-
-  constructor(public message: string) {}
-}
-
 export class FinalizeViagemAction {
   static readonly type = '[viagens] finalize viagem';
 

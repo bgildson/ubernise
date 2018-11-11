@@ -15,9 +15,6 @@ import {
   CreateViagemAction,
   CreateViagemSuccessAction,
   CreateViagemFailAction,
-  StartViagemAction,
-  StartViagemSuccessAction,
-  StartViagemFailAction,
   FinalizeViagemAction,
   FinalizeViagemFailAction,
   FinalizeViagemSuccessAction,
@@ -31,7 +28,6 @@ export class ViagensStateModel extends BaseStateModel<ViagemModel> {
   recents: ViagemModel[];
   recentsLoading: boolean;
   creating: boolean;
-  starting: boolean;
   finalizing: boolean;
   canceling: boolean;
 }
@@ -43,7 +39,6 @@ export const defaultState: ViagensStateModel = {
   recents: [],
   recentsLoading: false,
   creating: false,
-  starting: false,
   finalizing: false,
   canceling: false
 };
@@ -74,14 +69,13 @@ export class ViagensState {
     return finalizing;
   }
   @Selector()
-  static waiting(state: ViagensStateModel) {
-    return (
-      state.loading ||
-      state.creating ||
-      state.starting ||
-      state.finalizing ||
-      state.canceling
-    );
+  static waiting({
+    loading,
+    creating,
+    finalizing,
+    canceling
+  }: ViagensStateModel) {
+    return loading || creating || finalizing || canceling;
   }
 
   constructor(private viagensService: ViagensService) {}
@@ -201,39 +195,6 @@ export class ViagensState {
   ) {
     ctx.patchState({
       creating: false
-    });
-
-    return ctx.dispatch(new ShowGlobalSnackBarAction(message));
-  }
-
-  @Action(StartViagemAction)
-  startViagem(ctx: StateContext<ViagensStateModel>, { id }: StartViagemAction) {
-    ctx.patchState({
-      starting: true
-    });
-
-    return this.viagensService.start(id).pipe(
-      tap(() => ctx.dispatch(new StartViagemSuccessAction())),
-      catchError(message => ctx.dispatch(new StartViagemFailAction(message)))
-    );
-  }
-
-  @Action(StartViagemSuccessAction)
-  startViagemSuccess(ctx: StateContext<ViagensStateModel>) {
-    ctx.patchState({
-      starting: false
-    });
-
-    return ctx.dispatch(new ShowGlobalSnackBarAction('Viagem iniciada!'));
-  }
-
-  @Action(StartViagemFailAction)
-  startViagemFail(
-    ctx: StateContext<ViagensStateModel>,
-    { message }: StartViagemFailAction
-  ) {
-    ctx.patchState({
-      starting: false
     });
 
     return ctx.dispatch(new ShowGlobalSnackBarAction(message));

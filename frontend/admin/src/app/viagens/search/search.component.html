@@ -87,7 +87,6 @@
                       <mat-icon>more_vert</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
-                      <button mat-menu-item (click)="onStart(element.id)" *ngIf="canStart(element)">Iniciar</button>
                       <button mat-menu-item (click)="onFinalize(element.id)" *ngIf="canFinalize(element)">Finalizar</button>
                       <button mat-menu-item (click)="onCancel(element.id)" *ngIf="canCancel(element)">Cancelar</button>
                     </mat-menu>

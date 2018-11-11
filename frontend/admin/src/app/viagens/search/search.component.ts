@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
@@ -16,11 +16,7 @@ import { UsuariosState } from '@admin/usuarios/usuarios.state';
 import { ViagemFormModalComponent } from '@admin/viagem-form-modal/viagem-form-modal.component';
 import { ConfirmDialogComponent } from '@admin/confirm-dialog/confirm-dialog.component';
 import { ViagemFinalizeDialogComponent } from '@admin/viagem-finalize-dialog/viagem-finalize-dialog.component';
-import {
-  SearchViagensAction,
-  StartViagemAction,
-  CancelViagemAction
-} from '../viagens.actions';
+import { SearchViagensAction, CancelViagemAction } from '../viagens.actions';
 import { ViagensState } from '../viagens.state';
 
 @Component({
@@ -55,7 +51,6 @@ export class SearchComponent {
   dataSource = new MatTableDataSource<ViagemModel>();
 
   viagensStatusDescriptions = {
-    aguardando: 'Aguardando',
     iniciada: 'Iniciada',
     finalizada: 'Finalizada',
     cancelada: 'Cancelada'
@@ -65,10 +60,6 @@ export class SearchComponent {
     value: ViagemStatus;
     description: string;
   }[] = [
-    {
-      value: 'aguardando',
-      description: this.viagensStatusDescriptions['aguardando']
-    },
     {
       value: 'iniciada',
       description: this.viagensStatusDescriptions['iniciada']
@@ -170,19 +161,6 @@ export class SearchComponent {
     }
   }
 
-  onStart(id: string) {
-    this.dialog
-      .open(ConfirmDialogComponent, {
-        data: {
-          message: 'Deseja iniciar esta viagem?'
-        }
-      })
-      .afterClosed()
-      .subscribe(result => {
-        if (result) this.store.dispatch(new StartViagemAction(id));
-      });
-  }
-
   onFinalize(id: string) {
     this.dialog
       .open(ViagemFinalizeDialogComponent, {
@@ -203,10 +181,6 @@ export class SearchComponent {
       .subscribe(result => {
         if (result) this.store.dispatch(new CancelViagemAction(id));
       });
-  }
-
-  canStart(viagem: ViagemModel) {
-    return viagem.status === 'aguardando';
   }
 
   canFinalize(viagem: ViagemModel) {

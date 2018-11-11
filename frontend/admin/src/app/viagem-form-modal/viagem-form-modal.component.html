@@ -7,12 +7,6 @@
     <input type="text" matInput formControlName="destino" placeholder="Destino">
   </mat-form-field>
 
-  <mat-form-field>
-    <input matInput formControlName="data_agendamento" [matDatepicker]="dataAgendamento" placeholder="Data de Agendamento">
-    <mat-datepicker-toggle matSuffix [for]="dataAgendamento"></mat-datepicker-toggle>
-    <mat-datepicker touchUi #dataAgendamento></mat-datepicker>
-  </mat-form-field>
-
   <div class="actions">
     <button type="button" mat-button [disabled]="creating$ | async" (click)="onCancel()">Cancelar</button>
     <button mat-raised-button color="primary" [disabled]="creating$ | async">Criar</button>
