@@ -34,101 +34,109 @@ export const viagensCreate = functions.https.onCall(
     }: { origem: string; destino: string; data_agendamento },
     context
   ) => {
-    await authenticatedAndUsuarioWithPerfilIn(context, [
-      'administrador',
-      'motorista'
-    ]);
+    try {
+      await authenticatedAndUsuarioWithPerfilIn(context, [
+        'administrador',
+        'motorista'
+      ]);
 
-    const batch = firebase.firestore().batch();
+      const batch = firebase.firestore().batch();
 
-    const viagemRef = ViagensService.createRef();
+      const viagemRef = ViagensService.createRef();
 
-    const dataAgendamento = data_agendamento
-      ? moment(data_agendamento).toDate()
-      : null;
+      const dataAgendamento = data_agendamento
+        ? moment(data_agendamento).toDate()
+        : null;
 
-    const hoje = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth(),
-      new Date().getDate()
-    );
-
-    if (dataAgendamento && dataAgendamento < hoje)
-      throw new functions.https.HttpsError(
-        'failed-precondition',
-        'Data de agendamento deve ser posterior a agora!'
+      const hoje = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate()
       );
 
-    const viagem = <ViagemModel>{
-      id: viagemRef.id,
-      origem,
-      destino,
-      data_agendamento: dataAgendamento,
-      data_inicial: null,
-      data_final: null,
-      passageiros: [],
-      status: 'aguardando',
-      taxa_id: null,
-      taxa_valor: null
-    };
+      if (dataAgendamento && dataAgendamento < hoje)
+        throw new functions.https.HttpsError(
+          'failed-precondition',
+          'Data de agendamento deve ser posterior a agora!'
+        );
 
-    batch.create(viagemRef, viagem);
+      const viagem = <ViagemModel>{
+        id: viagemRef.id,
+        origem,
+        destino,
+        data_agendamento: dataAgendamento,
+        data_inicial: null,
+        data_final: null,
+        passageiros: [],
+        status: 'aguardando',
+        taxa_id: null,
+        taxa_valor: null
+      };
 
-    await batch.commit();
+      batch.create(viagemRef, viagem);
 
-    return parseViagemToResponse(viagem);
+      await batch.commit();
+
+      return parseViagemToResponse(viagem);
+    } catch (err) {
+      throw new functions.https.HttpsError(err.code || 'internal', err.message);
+    }
   }
 );
 
 export const viagensStart = functions.https.onCall(
   async (id: string, context) => {
-    await authenticatedAndUsuarioWithPerfilIn(context, [
-      'administrador',
-      'motorista'
-    ]);
+    try {
+      await authenticatedAndUsuarioWithPerfilIn(context, [
+        'administrador',
+        'motorista'
+      ]);
 
-    const viagemSnap = await ViagensService.getById(id).get();
+      const viagemSnap = await ViagensService.getById(id).get();
 
-    if (!viagemSnap.exists)
-      throw new functions.https.HttpsError(
-        'not-found',
-        'Viagem não encontrada!'
-      );
-    const viagem = <ViagemModel>viagemSnap.data();
+      if (!viagemSnap.exists)
+        throw new functions.https.HttpsError(
+          'not-found',
+          'Viagem não encontrada!'
+        );
+      const viagem = <ViagemModel>viagemSnap.data();
 
-    if (viagem.status !== 'aguardando')
-      throw new functions.https.HttpsError(
-        'failed-precondition',
-        'Viagem não pode ser iniciada!'
-      );
+      if (viagem.status !== 'aguardando')
+        throw new functions.https.HttpsError(
+          'failed-precondition',
+          'Viagem não pode ser iniciada!'
+        );
 
-    const dataInicial = new Date();
+      const dataInicial = new Date();
 
-    const taxaSnap = await TaxasService.getOlderThanData(dataInicial);
-    if (taxaSnap.empty)
-      throw new functions.https.HttpsError(
-        'not-found',
-        'Não foi encontrada uma taxa!'
-      );
+      const taxaSnap = await TaxasService.getOlderThanData(dataInicial);
+      if (taxaSnap.empty)
+        throw new functions.https.HttpsError(
+          'not-found',
+          'Não foi encontrada uma taxa!'
+        );
 
-    const taxa: TaxaModel = <TaxaModel>taxaSnap.docs[0].data();
+      const taxa: TaxaModel = <TaxaModel>taxaSnap.docs[0].data();
 
-    const _viagem = <ViagemModel>{
-      ...viagem,
-      id: viagemSnap.id,
-      status: 'iniciada',
-      data_inicial: dataInicial,
-      taxa_id: taxaSnap.docs[0].id,
-      taxa_valor: taxa.valor
-    };
+      const _viagem = <ViagemModel>{
+        ...viagem,
+        id: viagemSnap.id,
+        status: 'iniciada',
+        data_inicial: dataInicial,
+        taxa_id: taxaSnap.docs[0].id,
+        taxa_valor: taxa.valor
+      };
 
-    const batch = firebase.firestore().batch();
+      const batch = firebase.firestore().batch();
 
-    batch.update(viagemSnap.ref, _viagem);
+      batch.update(viagemSnap.ref, _viagem);
 
-    await batch.commit();
+      await batch.commit();
 
-    return parseViagemToResponse(_viagem);
+      return parseViagemToResponse(_viagem);
+    } catch (err) {
+      throw new functions.https.HttpsError(err.code || 'internal', err.message);
+    }
   }
 );
 
@@ -137,135 +145,143 @@ export const viagensFinalize = functions.https.onCall(
     { id, passageiros }: { id: string; passageiros: string[] },
     context
   ) => {
-    await authenticatedAndUsuarioWithPerfilIn(context, [
-      'administrador',
-      'motorista'
-    ]);
+    try {
+      await authenticatedAndUsuarioWithPerfilIn(context, [
+        'administrador',
+        'motorista'
+      ]);
 
-    const viagemSnap = await ViagensService.getById(id).get();
-    if (!viagemSnap.exists)
-      throw new functions.https.HttpsError(
-        'not-found',
-        'Viagem não encontrada!'
-      );
-    const viagem = <ViagemModel>viagemSnap.data();
+      const viagemSnap = await ViagensService.getById(id).get();
+      if (!viagemSnap.exists)
+        throw new functions.https.HttpsError(
+          'not-found',
+          'Viagem não encontrada!'
+        );
+      const viagem = <ViagemModel>viagemSnap.data();
 
-    if (viagem.status !== 'iniciada')
-      throw new functions.https.HttpsError(
-        'failed-precondition',
-        'Esta viagem não pode ser finalizada!'
-      );
+      if (viagem.status !== 'iniciada')
+        throw new functions.https.HttpsError(
+          'failed-precondition',
+          'Esta viagem não pode ser finalizada!'
+        );
 
-    if (!passageiros || passageiros.length === 0)
-      throw new functions.https.HttpsError(
-        'failed-precondition',
-        'A viagem não pode ser finalizada sem passageiros!'
-      );
+      if (!passageiros || passageiros.length === 0)
+        throw new functions.https.HttpsError(
+          'failed-precondition',
+          'A viagem não pode ser finalizada sem passageiros!'
+        );
 
-    const _passageiros = Object.keys(
-      passageiros.reduce((curr, next) => ({ ...curr, [next]: true }), {})
-    );
-
-    const taxaSnap = await TaxasService.getOlderThanData(viagem.data_inicial);
-    if (taxaSnap.empty)
-      throw new functions.https.HttpsError(
-        'not-found',
-        'Não foi encontrada uma taxa!'
+      const _passageiros = Object.keys(
+        passageiros.reduce((curr, next) => ({ ...curr, [next]: true }), {})
       );
 
-    const taxa: TaxaModel = <TaxaModel>taxaSnap.docs[0].data();
+      const taxaSnap = await TaxasService.getOlderThanData(viagem.data_inicial);
+      if (taxaSnap.empty)
+        throw new functions.https.HttpsError(
+          'not-found',
+          'Não foi encontrada uma taxa!'
+        );
 
-    const batch = firebase.firestore().batch();
+      const taxa: TaxaModel = <TaxaModel>taxaSnap.docs[0].data();
 
-    const _viagem = <ViagemModel>{
-      ...viagem,
-      id: viagemSnap.id,
-      passageiros: _passageiros,
-      status: 'finalizada',
-      data_final: new Date()
-    };
+      const batch = firebase.firestore().batch();
 
-    batch.update(viagemSnap.ref, _viagem);
+      const _viagem = <ViagemModel>{
+        ...viagem,
+        id: viagemSnap.id,
+        passageiros: _passageiros,
+        status: 'finalizada',
+        data_final: new Date()
+      };
 
-    let passageiro;
-    for (passageiro of _passageiros) {
-      const movimentacaoRef = MovimentacoesService.createRef();
+      batch.update(viagemSnap.ref, _viagem);
 
-      batch.create(movimentacaoRef, <MovimentacaoModel>{
-        viagem_id: viagemSnap.id,
-        data: _viagem.data_final,
-        operacao: 'viagem',
-        tipo: 'saida',
-        usuario_uid: passageiro,
-        valor: taxa.valor,
-        observacao: ''
-      });
+      let passageiro;
+      for (passageiro of _passageiros) {
+        const movimentacaoRef = MovimentacoesService.createRef();
 
-      const carteiraSnap = await CarteirasService.getById(passageiro).get();
-      const carteira = <CarteiraModel>carteiraSnap.data();
+        batch.create(movimentacaoRef, <MovimentacaoModel>{
+          viagem_id: viagemSnap.id,
+          data: _viagem.data_final,
+          operacao: 'viagem',
+          tipo: 'saida',
+          usuario_uid: passageiro,
+          valor: taxa.valor,
+          observacao: ''
+        });
 
-      batch.update(carteiraSnap.ref, <CarteiraModel>{
-        ...carteira,
-        saldo: carteira.saldo - taxa.valor
-      });
+        const carteiraSnap = await CarteirasService.getById(passageiro).get();
+        const carteira = <CarteiraModel>carteiraSnap.data();
+
+        batch.update(carteiraSnap.ref, <CarteiraModel>{
+          ...carteira,
+          saldo: carteira.saldo - taxa.valor
+        });
+      }
+
+      await batch.commit();
+
+      return parseViagemToResponse(_viagem);
+    } catch (err) {
+      throw new functions.https.HttpsError(err.code || 'internal', err.message);
     }
-
-    await batch.commit();
-
-    return parseViagemToResponse(_viagem);
   }
 );
 
 export const viagensCancel = functions.https.onCall(
   async (id: string, context) => {
-    await authenticatedAndUsuarioWithPerfilIn(context, [
-      'administrador',
-      'motorista'
-    ]);
+    try {
+      await authenticatedAndUsuarioWithPerfilIn(context, [
+        'administrador',
+        'motorista'
+      ]);
 
-    const viagemSnap = await ViagensService.getById(id).get();
-    if (!viagemSnap.exists)
-      throw new functions.https.HttpsError(
-        'not-found',
-        'Viagem não encontrada!'
-      );
-    const viagem = <ViagemModel>viagemSnap.data();
+      const viagemSnap = await ViagensService.getById(id).get();
+      if (!viagemSnap.exists)
+        throw new functions.https.HttpsError(
+          'not-found',
+          'Viagem não encontrada!'
+        );
+      const viagem = <ViagemModel>viagemSnap.data();
 
-    if (viagem.status === 'cancelada')
-      throw new functions.https.HttpsError(
-        'failed-precondition',
-        'Esta viagem já está cancelada!'
-      );
+      if (viagem.status === 'cancelada')
+        throw new functions.https.HttpsError(
+          'failed-precondition',
+          'Esta viagem já está cancelada!'
+        );
 
-    const batch = firebase.firestore().batch();
+      const batch = firebase.firestore().batch();
 
-    const _viagem = <ViagemModel>{
-      ...viagem,
-      status: 'cancelada'
-    };
+      const _viagem = <ViagemModel>{
+        ...viagem,
+        status: 'cancelada'
+      };
 
-    batch.update(viagemSnap.ref, _viagem);
+      batch.update(viagemSnap.ref, _viagem);
 
-    let passageiro;
-    for (passageiro of viagem.passageiros) {
-      const carteiraSnap = await CarteirasService.getById(passageiro).get();
-      const carteira = <CarteiraModel>carteiraSnap.data();
+      let passageiro;
+      for (passageiro of viagem.passageiros) {
+        const carteiraSnap = await CarteirasService.getById(passageiro).get();
+        const carteira = <CarteiraModel>carteiraSnap.data();
 
-      batch.update(carteiraSnap.ref, <CarteiraModel>{
-        ...carteira,
-        saldo: carteira.saldo + viagem.taxa_valor
-      });
+        batch.update(carteiraSnap.ref, <CarteiraModel>{
+          ...carteira,
+          saldo: carteira.saldo + viagem.taxa_valor
+        });
 
-      const movimentacaoSnap = await MovimentacoesService.getByUsuarioUidViagemId(
-        passageiro,
-        viagemSnap.id
-      );
+        const movimentacaoSnap = await MovimentacoesService.getByUsuarioUidViagemId(
+          passageiro,
+          viagemSnap.id
+        );
 
-      if (!movimentacaoSnap.empty) batch.delete(movimentacaoSnap.docs[0].ref);
+        if (!movimentacaoSnap.empty) batch.delete(movimentacaoSnap.docs[0].ref);
+      }
+
+      await batch.commit();
+
+      return parseViagemToResponse(_viagem);
+    } catch (err) {
+      throw new functions.https.HttpsError(err.code || 'internal', err.message);
     }
-
-    await batch.commit();
-
-    return parseViagemToResponse(_viagem);
   }
 );
