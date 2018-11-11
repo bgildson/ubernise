@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 
-import { UsuarioModel, CarteiraModel } from '../../../shared/models';
+import { UsuarioModel, CarteiraModel } from '@shared/models';
 import { CarteirasService } from '../services';
 
 export const usuarioUpdated = functions.firestore
