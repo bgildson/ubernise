@@ -28,6 +28,13 @@ export const viagensCreate = functions.https.onCall(
       'motorista'
     ]);
 
+    const viagemOpened = await ViagensService.getByStatus('iniciada');
+    if (!viagemOpened.empty)
+      throw new functions.https.HttpsError(
+        'failed-precondition',
+        'Já existe uma viagem iniciada!'
+      );
+
     const batch = firebase.firestore().batch();
 
     const viagemRef = ViagensService.createRef();
@@ -40,10 +47,9 @@ export const viagensCreate = functions.https.onCall(
         'not-found',
         'Não foi encontrada uma taxa!'
       );
-
     const taxa: TaxaModel = <TaxaModel>taxaSnap.docs[0].data();
 
-    const viagem = <ViagemModel>{
+    const viagem: ViagemModel = {
       id: viagemRef.id,
       origem,
       destino,
