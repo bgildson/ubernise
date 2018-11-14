@@ -26,7 +26,7 @@
     <span>{{ viagemStatusDescriptions[viagem.status] }}</span>
     <span class="label">Passageiros</span>
     <div class="passengers">
-      <usuario-tile *ngFor="let passageiro of viagem.passageiros" [usuario]="passageiro"></usuario-tile>
+      <usuario-tile *ngFor="let passageiro of viagem.passageiros" [canToggle]="false" [usuario]="passageiro"></usuario-tile>
     </div>
   </div>
 </mat-expansion-panel>

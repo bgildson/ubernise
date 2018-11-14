@@ -7,15 +7,13 @@ import { documentChangeActionToList, listToEntities } from '@shared/functions';
 import { ViagemModel } from '@shared/models';
 import { UsuariosService } from '@admin/usuarios/usuarios.service';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { ViagemStatus } from '@shared/types';
 
 export const parseViagens = viagens =>
   viagens.map(
     viagem =>
       <ViagemModel>{
         ...viagem,
-        data_agendamento: viagem.data_agendamento
-          ? viagem.data_agendamento.toDate()
-          : null,
         data_inicial: viagem.data_inicial ? viagem.data_inicial.toDate() : null,
         data_final: viagem.data_final ? viagem.data_final.toDate() : null
       }
@@ -88,7 +86,7 @@ export class ViagensService {
     this.afs
       .collection(ViagensService.basePath, ref =>
         ref
-          .where('status', '==', 'finalizada')
+          .where('status', '==', <ViagemStatus>'finalizada')
           .orderBy('data_inicial', 'desc')
           .limit(5)
       )
@@ -123,14 +121,21 @@ export class ViagensService {
         catchError(error => throwError(error.message))
       );
 
+  listenStarted = () =>
+    this.afs
+      .collection(ViagensService.basePath, ref =>
+        ref.where('status', '==', <ViagemStatus>'iniciada')
+      )
+      .snapshotChanges()
+      .pipe<ViagemModel[]>(
+        map(documentChangeActionToList()),
+        map(parseViagens),
+        catchError(error => throwError(error.message))
+      );
+
   create = (viagem: { origem: string; destino: string; data_agendamento }) =>
     this.functions
       .httpsCallable('viagensCreate')(viagem)
-      .pipe(catchError(error => throwError(error.message)));
-
-  start = (id: string) =>
-    this.functions
-      .httpsCallable('viagensStart')(id)
       .pipe(catchError(error => throwError(error.message)));
 
   finalize = (data: { id: string; passageiros: string[] }) =>

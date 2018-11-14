@@ -6,7 +6,9 @@ import {
   MatButtonModule,
   MatDialogModule
 } from '@angular/material';
+import { NgxsModule } from '@ngxs/store';
 
+import { ViagensState } from '@admin/viagens/viagens.state';
 import { ViagemCreateDialogComponent } from './viagem-create-dialog.component';
 
 @NgModule({
@@ -15,7 +17,8 @@ import { ViagemCreateDialogComponent } from './viagem-create-dialog.component';
     ReactiveFormsModule,
     MatButtonModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    NgxsModule.forFeature([ViagensState])
   ],
   declarations: [ViagemCreateDialogComponent],
   entryComponents: [ViagemCreateDialogComponent]

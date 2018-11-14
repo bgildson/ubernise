@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-content>
+    <span class="label">Origem</span>
+    <span>{{ viagem.origem }}</span>
+  
+    <span class="label">Destino</span>
+    <span>{{ viagem.destino }}</span>
+  </mat-card-content>
+  <mat-card-content>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button [disabled]="disabled" (click)="cancel.emit()">
+      Cancelar
+    </button>
+    <button mat-button color="accent" [disabled]="disabled" (click)="finalize.emit()">
+      Finalizar
+    </button>
+  </mat-card-actions>
+</mat-card>

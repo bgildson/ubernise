@@ -1,6 +1,6 @@
-<div>
+<form [formGroup]="form" (submit)="onCreate()">
   <h3 matDialogTitle>Nova viagem</h3>
-  <form mat-dialog-content [formGroup]="form" (submit)="onCreate()">
+  <mat-dialog-content>
     <mat-form-field>
       <input type="text" matInput formControlName="origem" placeholder="Origem">
     </mat-form-field>
@@ -8,9 +8,9 @@
     <mat-form-field>
       <input type="text" matInput formControlName="destino" placeholder="Destino">
     </mat-form-field>
-  </form>
+  </mat-dialog-content>
   <mat-dialog-actions>
     <button type="button" mat-button [disabled]="creating$ | async" (click)="onCancel()">Cancelar</button>
     <button mat-raised-button color="primary" [disabled]="creating$ | async">Criar</button>
   </mat-dialog-actions>
-</div>
+</form>

@@ -1,4 +1,4 @@
-import { State, Selector, Action, StateContext } from '@ngxs/store';
+import { State, Selector, Action, StateContext, NgxsOnInit } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -20,13 +20,15 @@ import {
   FinalizeViagemSuccessAction,
   CancelViagemAction,
   CancelViagemSuccessAction,
-  CancelViagemFailAction
+  CancelViagemFailAction,
+  SetViagemStartedAction
 } from './viagens.actions';
 import { ViagensService } from './viagens.service';
 
 export class ViagensStateModel extends BaseStateModel<ViagemModel> {
   recents: ViagemModel[];
   recentsLoading: boolean;
+  started: ViagemModel;
   creating: boolean;
   finalizing: boolean;
   canceling: boolean;
@@ -38,6 +40,7 @@ export const defaultState: ViagensStateModel = {
   loading: false,
   recents: [],
   recentsLoading: false,
+  started: null,
   creating: false,
   finalizing: false,
   canceling: false
@@ -47,7 +50,7 @@ export const defaultState: ViagensStateModel = {
   name: 'viagens',
   defaults: defaultState
 })
-export class ViagensState {
+export class ViagensState implements NgxsOnInit {
   @Selector()
   static viagens({ ordenation, entities }: ViagensStateModel) {
     return ordenation.map(key => entities[key]);
@@ -69,6 +72,10 @@ export class ViagensState {
     return finalizing;
   }
   @Selector()
+  static started({ started }: ViagensStateModel) {
+    return started;
+  }
+  @Selector()
   static waiting({
     loading,
     creating,
@@ -79,6 +86,14 @@ export class ViagensState {
   }
 
   constructor(private viagensService: ViagensService) {}
+
+  ngxsOnInit(ctx: StateContext<ViagensStateModel>) {
+    this.viagensService
+      .listenStarted()
+      .subscribe(([viagem]) =>
+        ctx.dispatch(new SetViagemStartedAction(viagem))
+      );
+  }
 
   @Action(SearchViagensAction)
   searchViagens(
@@ -270,5 +285,17 @@ export class ViagensState {
     });
 
     return ctx.dispatch(new ShowGlobalSnackBarAction(message));
+  }
+
+  @Action(SetViagemStartedAction)
+  setViagemStarted(
+    ctx: StateContext<ViagensStateModel>,
+    { viagem }: SetViagemStartedAction
+  ) {
+    ctx.patchState({
+      started: viagem
+    });
+
+    return of(true);
   }
 }

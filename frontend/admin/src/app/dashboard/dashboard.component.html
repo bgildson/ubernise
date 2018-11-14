@@ -1,8 +1,19 @@
 <div class="container">
   <div class="content">
     <div class="content-padding">
-      <h3>Viagens Recentes</h3>
+      <viagem-card
+        *ngIf="viagemStarted$ | async as viagem"
+        [disabled]="waiting$ | async"
+        [viagem]="viagem"
+        (finalize)="onViagemStartedFinalize(viagem.id)"
+        (cancel)="onViagemStartedCancel(viagem.id)"></viagem-card>
+
+      <h3 *ngIf="(recentsViagens$ | async).length">Viagens Recentes</h3>
       <viagem-row *ngFor="let viagem of recentsViagens$ | async" [viagem]="viagem"></viagem-row>
+
+      <button mat-fab (click)="onViagemCreate()" [disabled]="waiting$ | async">
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
   </div>
 </div>

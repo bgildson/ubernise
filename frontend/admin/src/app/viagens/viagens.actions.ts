@@ -87,3 +87,9 @@ export class CancelViagemFailAction {
 
   constructor(public message: string) {}
 }
+
+export class SetViagemStartedAction {
+  static readonly type = '[viagens] set viagem started';
+
+  constructor(public viagem: ViagemModel) {}
+}
