@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { map, catchError, first } from 'rxjs/operators';
 
 import { documentChangeActionToList } from '@shared/functions';
@@ -20,12 +20,12 @@ export class MovimentacoesService {
         ref.where('usuario_uid', '==', usuario_uid).orderBy('data', 'desc')
       )
       .snapshotChanges()
-      .pipe<MovimentacaoModel[]>(
+      .pipe(
         first(),
         map(documentChangeActionToList()),
         map(movimentacoes =>
           movimentacoes.map(
-            movimentacao =>
+            (movimentacao: any) =>
               <MovimentacaoModel>{
                 ...movimentacao,
                 data: movimentacao.data.toDate()

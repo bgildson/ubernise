@@ -22,7 +22,7 @@ export class UsuariosService {
       )
       .snapshotChanges()
       .pipe(
-        map(documentChangeActionToList('uid')),
+        map(documentChangeActionToList<UsuarioModel>('uid')),
         catchError(error => throwError(error.message))
       );
 
@@ -30,7 +30,7 @@ export class UsuariosService {
     this.afs
       .doc(`${UsuariosService.basePath}/${uid}`)
       .snapshotChanges()
-      .pipe<UsuarioModel>(
+      .pipe(
         first(),
         map(
           (document: any): UsuarioModel => {
@@ -47,7 +47,7 @@ export class UsuariosService {
     this.afs
       .collection(UsuariosService.basePath)
       .snapshotChanges()
-      .pipe<UsuarioModel[]>(
+      .pipe(
         first(),
         map(documentChangeActionToList('uid')),
         catchError(error => throwError(error.message))
@@ -59,7 +59,7 @@ export class UsuariosService {
         ref.where('perfil', '==', 'passageiro')
       )
       .snapshotChanges()
-      .pipe<UsuarioModel[]>(
+      .pipe(
         first(),
         map(documentChangeActionToList('uid')),
         catchError(error => throwError(error.message))

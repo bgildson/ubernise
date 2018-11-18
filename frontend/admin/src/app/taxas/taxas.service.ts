@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { catchError, map, first } from 'rxjs/operators';
-import { throwError, from } from 'rxjs';
+import { throwError, from, Observable } from 'rxjs';
 
 import { documentChangeActionToList } from '@shared/functions';
 import { TaxaModel } from '@shared/models';
@@ -24,12 +24,12 @@ export class TaxasService {
         query.orderBy('data_inicial', 'desc')
       )
       .snapshotChanges()
-      .pipe<TaxaModel[]>(
+      .pipe(
         first(),
         map(documentChangeActionToList()),
         map(taxas => {
           return taxas.map(
-            taxa =>
+            (taxa: any) =>
               <TaxaModel>{
                 ...taxa,
                 data_inicial: taxa.data_inicial
@@ -42,10 +42,8 @@ export class TaxasService {
         catchError(error => throwError(error.message))
       );
 
-  create = (taxa: Partial<TaxaModel>) =>
-    from(this.functions.functions.httpsCallable('taxasCreate')(taxa)).pipe<
-      TaxaModel
-    >(
+  create = (taxa: Partial<TaxaModel>): Observable<TaxaModel> =>
+    from(this.functions.functions.httpsCallable('taxasCreate')(taxa)).pipe(
       map(res => res.data),
       catchError(error => throwError(error.message))
     );

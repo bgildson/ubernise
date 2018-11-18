@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { throwError, from, Observable } from 'rxjs';
 import { catchError, map, first } from 'rxjs/operators';
-import { throwError, from } from 'rxjs';
 
 import { documentChangeActionToList } from '@shared/functions';
 import { CarteiraModel } from '@shared/models';
@@ -18,15 +18,15 @@ export class CarteirasService {
     private functions: AngularFireFunctions
   ) {}
 
-  getAll = () =>
+  getAll = (): Observable<CarteiraModel[]> =>
     this.afs
       .collection(CarteirasService.basePath, query =>
         query.orderBy('usuario_nome_exibicao')
       )
       .snapshotChanges()
-      .pipe<CarteiraModel[]>(
+      .pipe(
         first(),
-        map(documentChangeActionToList()),
+        map(documentChangeActionToList<CarteiraModel>()),
         catchError(error => throwError(error.message))
       );
 

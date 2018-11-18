@@ -9,7 +9,7 @@ import { UsuariosService } from '@admin/usuarios/usuarios.service';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { ViagemStatus } from '@shared/types';
 
-export const parseViagens = viagens =>
+export const parseViagens = (viagens): ViagemModel[] =>
   viagens.map(
     viagem =>
       <ViagemModel>{
@@ -91,7 +91,7 @@ export class ViagensService {
           .limit(5)
       )
       .snapshotChanges()
-      .pipe<ViagemModel[]>(
+      .pipe(
         map(documentChangeActionToList()),
         map(parseViagens),
         mergeMap((viagens: ViagemModel[]) => {
@@ -127,7 +127,7 @@ export class ViagensService {
         ref.where('status', '==', <ViagemStatus>'iniciada')
       )
       .snapshotChanges()
-      .pipe<ViagemModel[]>(
+      .pipe(
         map(documentChangeActionToList()),
         map(parseViagens),
         catchError(error => throwError(error.message))

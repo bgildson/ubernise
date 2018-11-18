@@ -21,17 +21,15 @@ export class LogadoComponent {
   drawer: MatDrawer;
   drawerOpen$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   drawerOpenSubscription: Subscription;
-  drawerFixed$: Observable<boolean> = this.observableMedia
-    .asObservable()
-    .pipe<boolean>(
-      map(
-        (mediaChange: MediaChange) =>
-          mediaChange.mqAlias != 'xs' && mediaChange.mqAlias != 'sm'
-      ),
-      tap((fixed: boolean) => {
-        this.drawerOpen$.next(fixed);
-      })
-    );
+  drawerFixed$: Observable<boolean> = this.observableMedia.asObservable().pipe(
+    map(
+      (mediaChange: MediaChange) =>
+        mediaChange.mqAlias != 'xs' && mediaChange.mqAlias != 'sm'
+    ),
+    tap((fixed: boolean) => {
+      this.drawerOpen$.next(fixed);
+    })
+  );
   z;
   drawerMode$: Observable<DrawerMode> = this.drawerFixed$.pipe<DrawerMode>(
     map((drawerFixed: boolean) => (drawerFixed ? 'side' : 'over'))

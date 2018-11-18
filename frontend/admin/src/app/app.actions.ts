@@ -1,7 +1,7 @@
-import { MatSnackBarConfig } from "@angular/material";
+import { MatSnackBarConfig } from '@angular/material';
 
 export class ShowGlobalSnackBarAction {
-  static readonly type = "[app] show global snackbar";
+  static readonly type = '[app] show global snackbar';
 
   constructor(
     public message: string,

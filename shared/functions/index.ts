@@ -38,7 +38,7 @@ export const documentChangeActionToEntities = <Entity extends any>(
 export const documentChangeActionToList = <Model extends any>(
   pk: string = 'id'
 ) => (documents: DocumentChangeAction<any>[]) =>
-  documents.map<Model[]>(document => ({
+  documents.map<Model>(document => ({
     ...document.payload.doc.data(),
     [pk]: document.payload.doc.id
   }));
