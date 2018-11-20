@@ -1,9 +1,3 @@
-import {
-  DocumentChangeAction,
-  DocumentSnapshot,
-  Action
-} from '../../frontend/node_modules/@angular/fire/firestore';
-
 export const listToEntities = (pk: string = 'id') => (list: any[]) =>
   list.reduce(
     (prev, curr) => ({
@@ -23,7 +17,7 @@ export const entitiesToList = <Model extends any>(
 
 export const documentChangeActionToEntities = <Entity extends any>(
   pk: string = 'id'
-) => (documents: DocumentChangeAction<any>[]) =>
+) => (documents: any[]) =>
   documents.reduce<Entity>(
     (prev: Entity, { payload }) => ({
       ...(<any>prev),
@@ -37,7 +31,7 @@ export const documentChangeActionToEntities = <Entity extends any>(
 
 export const documentChangeActionToList = <Model extends any>(
   pk: string = 'id'
-) => (documents: DocumentChangeAction<any>[]) =>
+) => (documents: any[]) =>
   documents.map<Model>(document => ({
     ...document.payload.doc.data(),
     [pk]: document.payload.doc.id
@@ -45,7 +39,7 @@ export const documentChangeActionToList = <Model extends any>(
 
 export const actionDocumentSnapshotToModel = <Model extends any>(
   pk: string = 'id'
-) => (document: Action<DocumentSnapshot<any>>): Model => ({
+) => (document: any): Model => ({
   ...document.payload.data(),
   [pk]: document.payload.id
 });
