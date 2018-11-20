@@ -26,7 +26,18 @@
         "wallet/src/app/*",
         "wallet/src/environments/*"
       ],
-      "@shared/*": ["../shared/*"]
+      "@shared/*": [
+        "../shared/*"
+      ],
+      "common": [
+        "dist/common"
+      ],
+      "common/*": [
+        "dist/common/*"
+      ],
+      "@common/*": [
+        "common/src/lib/*"
+      ]
     }
   }
 }

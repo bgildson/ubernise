@@ -1,0 +1,19 @@
+@import '~@angular/material/theming';
+
+@mixin content-spinner-theme($theme) {
+  content-spinner {
+    display: flex;
+    flex-grow: 1;
+    justify-content: stretch;
+    align-items: start;
+  
+    >* {
+      width: 100%;
+    }
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-self: center;
+    }
+  }
+}

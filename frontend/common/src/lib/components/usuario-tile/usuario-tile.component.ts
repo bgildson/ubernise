@@ -10,7 +10,6 @@ import { UsuarioModel } from '@shared/models';
 @Component({
   selector: 'usuario-tile',
   templateUrl: './usuario-tile.component.html',
-  styleUrls: ['./usuario-tile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsuarioTileComponent {

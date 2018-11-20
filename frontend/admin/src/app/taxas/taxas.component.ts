@@ -4,7 +4,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 
 import { TaxaModel } from '@shared/models';
-import { ConfirmDialogComponent } from '@admin/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@common/components/confirm-dialog/confirm-dialog.component';
 import { LoadTaxasAction, DeleteTaxaAction } from './taxas.actions';
 import { TaxasState } from './taxas.state';
 import { TaxaDialogComponent } from './taxa-dialog/taxa-dialog.component';

@@ -4,11 +4,10 @@ import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { ViagemModel } from '@shared/models';
-import { ConfirmDialogComponent } from '@admin/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@common/components/confirm-dialog/confirm-dialog.component';
 import {
   LoadRecentsViagensAction,
-  CancelViagemAction,
-  FinalizeViagemAction
+  CancelViagemAction
 } from '@admin/viagens/viagens.actions';
 import { ViagensState } from '@admin/viagens/viagens.state';
 import { ViagemCreateDialogComponent } from '@admin/viagem-create-dialog/viagem-create-dialog.component';

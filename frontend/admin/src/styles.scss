@@ -6,8 +6,11 @@
 // import our custom theme
 @import './theme.scss';
 
-// use my-theme with angular-material-theme mixin
 @include angular-material-theme($admin-theme);
+
+@import '~common/src/lib/theming';
+
+@include common-theme($admin-theme);
 
 body {
   margin: 0;

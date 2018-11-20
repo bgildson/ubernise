@@ -14,8 +14,8 @@ import {
 } from '@angular/material';
 import { NgxsModule } from '@ngxs/store';
 
-import { BreadcrumbModule } from '@admin/breadcrumb/breadcrumb.module';
-import { ContentSpinnerModule } from '@admin/content-spinner/content-spinner.module';
+import { BreadcrumbModule } from '@common/components/breadcrumb/breadcrumb.module';
+import { ContentSpinnerModule } from '@common/components/content-spinner/content-spinner.module';
 import { MovimentacoesModule } from '@admin/movimentacoes/movimentacoes.module';
 import { CarteirasRoutingModule } from './carteiras-routing.module';
 import { CarteirasComponent } from './carteiras.component';

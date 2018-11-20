@@ -1,0 +1,13 @@
+@import './components/actionbar/actionbar-theme';
+@import './components/breadcrumb/breadcrumb-theme';
+@import './components/confirm-dialog/confirm-dialog-theme';
+@import './components/content-spinner/content-spinner-theme';
+@import './components/usuario-tile/usuario-tile-theme';
+
+@mixin common-theme($theme) {
+  @include actionbar-theme($theme);
+  @include breadcrumb-theme($theme);
+  @include confirm-dialog-theme($theme);
+  @include content-spinner-theme($theme);
+  @include usuario-tile-theme($theme);
+}

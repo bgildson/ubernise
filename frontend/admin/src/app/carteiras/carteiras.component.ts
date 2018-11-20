@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
-import { CarteiraModel } from '@shared/models';
-import { CarteirasState } from './carteiras.state';
 import { Observable, Subscription } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
+
+import { CarteiraModel } from '@shared/models';
 import { LoadCarteirasAction } from './carteiras.actions';
+import { CarteirasState } from './carteiras.state';
 import { AdicionarCreditoDialogComponent } from './adicionar-credito-dialog/adicionar-credito-dialog.component';
 import { HistoricoDialogComponent } from './historico-dialog/historico-dialog.component';
 

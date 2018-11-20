@@ -1,0 +1,9 @@
+@import '~@angular/material/theming';
+
+@mixin confirm-dialog-theme($theme) {
+
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

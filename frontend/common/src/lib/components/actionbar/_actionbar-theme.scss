@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+
+@mixin actionbar-theme($theme) {
+  $accent: map-get($theme, accent);
+
+  actionbar {
+    z-index: 1;
+
+    >div {
+      display: flex;
+      padding: 5px;
+      color: mat-color($accent, A100);
+      background: mat-color($accent, 700);
+    }
+  }
+}

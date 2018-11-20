@@ -2,8 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'content-spinner',
-  templateUrl: './content-spinner.component.html',
-  styleUrls: ['./content-spinner.component.scss']
+  templateUrl: './content-spinner.component.html'
 })
 export class ContentSpinnerComponent {
   @Input()

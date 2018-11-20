@@ -14,7 +14,7 @@ import { ViagemStatus } from '@shared/types';
 import { ShowGlobalSnackBarAction } from '@admin/app.actions';
 import { UsuariosState } from '@admin/usuarios/usuarios.state';
 import { ViagemCreateDialogComponent } from '@admin/viagem-create-dialog/viagem-create-dialog.component';
-import { ConfirmDialogComponent } from '@admin/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@common/components/confirm-dialog/confirm-dialog.component';
 import { ViagemFinalizeDialogComponent } from '@admin/viagem-finalize-dialog/viagem-finalize-dialog.component';
 import { SearchViagensAction, CancelViagemAction } from '../viagens.actions';
 import { ViagensState } from '../viagens.state';

@@ -9,8 +9,8 @@ import {
 } from '@angular/material';
 import { NgxsModule } from '@ngxs/store';
 
-import { ConfirmDialogModule } from '@admin/confirm-dialog/confirm-dialog.module';
-import { UsuarioTileModule } from '@admin/usuario-tile/usuario-tile.module';
+import { ConfirmDialogModule } from '@common/components/confirm-dialog/confirm-dialog.module';
+import { UsuarioTileModule } from '@common/components/usuario-tile/usuario-tile.module';
 import { ViagemCardModule } from '@admin/viagem-card/viagem-card.module';
 import { ViagemCreateDialogModule } from '@admin/viagem-create-dialog/viagem-create-dialog.module';
 import { ViagemFinalizeDialogModule } from '@admin/viagem-finalize-dialog/viagem-finalize-dialog.module';

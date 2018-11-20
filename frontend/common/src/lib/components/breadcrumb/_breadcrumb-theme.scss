@@ -1,0 +1,17 @@
+@import '~@angular/material/theming';
+
+@mixin breadcrumb-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  breadcrumb {
+    display: flex;
+    color: mat-color($primary, A100);
+    background: mat-color($primary, 700);
+    align-items: center;
+
+    > div {
+      padding: 20px;
+      flex-grow: 1;
+    }
+  }
+}

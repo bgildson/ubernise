@@ -16,10 +16,10 @@ import {
 } from '@angular/material';
 import { NgxsModule } from '@ngxs/store';
 
-import { ActionbarModule } from '@admin/actionbar/actionbar.module';
-import { BreadcrumbModule } from '@admin/breadcrumb/breadcrumb.module';
-import { ConfirmDialogModule } from '@admin/confirm-dialog/confirm-dialog.module';
-import { ContentSpinnerModule } from '@admin/content-spinner/content-spinner.module';
+import { ActionbarModule } from '@common/components/actionbar/actionbar.module';
+import { BreadcrumbModule } from '@common/components/breadcrumb/breadcrumb.module';
+import { ConfirmDialogModule } from '@common/components/confirm-dialog/confirm-dialog.module';
+import { ContentSpinnerModule } from '@common/components/content-spinner/content-spinner.module';
 import { UsuariosState } from '@admin/usuarios/usuarios.state';
 import { ViagemCreateDialogModule } from '@admin/viagem-create-dialog/viagem-create-dialog.module';
 import { ViagemFinalizeDialogModule } from '@admin/viagem-finalize-dialog/viagem-finalize-dialog.module';
