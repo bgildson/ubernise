@@ -5,6 +5,7 @@ mat-drawer-container {
 
   mat-drawer {
     width: 300px;
+    border: 0;
 
     mat-toolbar span {
       margin: 0 auto;
@@ -30,6 +31,7 @@ mat-drawer-container {
       }
     }
     .content {
+      position: relative;
       height: 100%;
       flex-grow: 1;
       overflow-y: auto;

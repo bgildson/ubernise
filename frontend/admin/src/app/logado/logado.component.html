@@ -34,8 +34,8 @@
         <button mat-menu-item (click)="onSair()">Sair</button>
       </mat-menu>
     </mat-toolbar>
-    <div class="content">
-      <router-outlet></router-outlet>
+    <div class="content" [@routerAnimation]="outlet.activatedRoute.snapshot.url">
+      <router-outlet #outlet="outlet"></router-outlet>
     </div>
   </mat-drawer-content>
 </mat-drawer-container>

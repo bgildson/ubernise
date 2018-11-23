@@ -1,6 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { MatDrawer } from '@angular/material';
+import {
+  trigger,
+  transition,
+  query,
+  style,
+  animate,
+  animateChild,
+  sequence
+} from '@angular/animations';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Store, Select } from '@ngxs/store';
@@ -14,7 +23,50 @@ import { AuthState } from '@admin/auth/auth.state';
 @Component({
   selector: 'logado',
   templateUrl: './logado.component.html',
-  styleUrls: ['./logado.component.scss']
+  styleUrls: ['./logado.component.scss'],
+  animations: [
+    trigger('routerAnimation', [
+      transition('* => *', [
+        style({ overflow: 'hidden' }),
+        query(
+          ':enter > *, :leave > *',
+          style({
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+          }),
+          { optional: true }
+        ),
+        query(':leave > *', style({ opacity: 1 }), {
+          optional: true
+        }),
+        query(
+          ':enter > *',
+          style({ opacity: 0, transform: 'translateY(10%)' })
+        ),
+        query(':leave > *', animateChild(), { optional: true }),
+        sequence([
+          query(
+            ':leave > *',
+            [
+              style({ opacity: 1 }),
+              animate('200ms ease-in', style({ opacity: 0 }))
+            ],
+            { optional: true }
+          ),
+          query(':enter > *', [
+            animate(
+              '200ms ease-out',
+              style({ opacity: 1, transform: 'translateY(0)' })
+            )
+          ])
+        ]),
+        query(':enter > *', animateChild())
+      ])
+    ])
+  ]
 })
 export class LogadoComponent {
   @ViewChild(MatDrawer)
@@ -30,7 +82,6 @@ export class LogadoComponent {
       this.drawerOpen$.next(fixed);
     })
   );
-  z;
   drawerMode$: Observable<DrawerMode> = this.drawerFixed$.pipe<DrawerMode>(
     map((drawerFixed: boolean) => (drawerFixed ? 'side' : 'over'))
   );
