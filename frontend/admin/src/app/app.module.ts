@@ -6,7 +6,10 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import {
+  AngularFireFunctionsModule,
+  FunctionsRegionToken
+} from '@angular/fire/functions';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
@@ -56,7 +59,10 @@ registerLocaleData(pt);
     }),
     NgxsReduxDevtoolsPluginModule.forRoot()
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'pt' }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt' },
+    { provide: FunctionsRegionToken, useValue: 'us-central1' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
