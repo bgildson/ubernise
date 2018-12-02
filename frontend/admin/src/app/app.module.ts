@@ -15,6 +15,8 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { locale } from 'moment';
+locale('pt-BR');
 
 import { UsuariosModule } from '@admin/usuarios/usuarios.module';
 import { environment } from '../environments/environment';
