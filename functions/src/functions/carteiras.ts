@@ -5,6 +5,7 @@ import { parseStringToNumber } from '../../../shared/functions';
 import { CarteiraModel, MovimentacaoModel } from '../../../shared/models';
 import { CarteirasService, MovimentacoesService } from '../services';
 import { authenticatedAndUsuarioWithPerfilIn } from './shared';
+import { reprocessarIndicador } from './indicadores';
 
 export const carteirasAdicionarCredito = functions.https.onCall(
   async (data: { usuario_uid; valor }, context) => {
@@ -52,6 +53,13 @@ export const carteirasAdicionarCredito = functions.https.onCall(
     batch.create(movimentacaoRef, movimentacao);
 
     await batch.commit();
+
+    await reprocessarIndicador(
+      'inadimplencia_mensal',
+      context.auth.uid,
+      movimentacao.data.getFullYear(),
+      movimentacao.data.getMonth()
+    );
 
     // send notification
 
