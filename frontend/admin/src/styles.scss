@@ -55,6 +55,9 @@ body {
   }
 }
 
+.selected {
+  background: #ddd;
+}
 .text-positive {
   color: map-get($admin-green-palette, 400);
 }

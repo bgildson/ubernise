@@ -13,7 +13,6 @@ import {
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Store, Select } from '@ngxs/store';
-import { Navigate } from '@ngxs/router-plugin';
 
 import { UsuarioModel } from '@shared/models';
 import { DrawerMode } from '@shared/types';
@@ -106,13 +105,12 @@ export class LogadoComponent {
     this.drawerOpenSubscription && this.drawerOpenSubscription.unsubscribe();
   }
 
-  onMenuItemClicked(navigateTo: string) {
+  onMenuItemClicked() {
     // TODO: corrigir listener qndo trocando entre menu fixo e menu sobreposto
     // apos a segunda permuta o listener é quebrado
     this.drawerFixed$.toPromise().then(fixed => {
       if (!fixed) this.drawerOpen$.next(false);
     });
-    this.store.dispatch(new Navigate([navigateTo]));
   }
 
   onDrawerClosedStart() {

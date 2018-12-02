@@ -11,7 +11,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: '',
+        path: 'dashboard',
         loadChildren: './dashboard/dashboard.module#DashboardModule'
       },
       {
@@ -25,7 +25,8 @@ const routes: Routes = [
       {
         path: 'viagens',
         loadChildren: './viagens/viagens.module#ViagensModule'
-      }
+      },
+      { path: '**', redirectTo: '/dashboard' }
     ]
   }
 ];

@@ -4,19 +4,19 @@
       <span>Ubernise</span>
     </mat-toolbar>
 
-    <button mat-menu-item (click)="onMenuItemClicked('/')">
+    <button mat-menu-item routerLink="/dashboard" routerLinkActive="selected" (click)="onMenuItemClicked()">
       <mat-icon>dashboard</mat-icon>
       Dash
     </button>
-    <button mat-menu-item (click)="onMenuItemClicked('/carteiras')">
+    <button mat-menu-item routerLink="/carteiras" routerLinkActive="selected" (click)="onMenuItemClicked()">
       <mat-icon>account_balance_wallet</mat-icon>
       Carteiras
     </button>
-    <button mat-menu-item (click)="onMenuItemClicked('/taxas')">
+    <button mat-menu-item routerLink="/taxas" routerLinkActive="selected" (click)="onMenuItemClicked()">
       <mat-icon>attach_money</mat-icon>
       Taxas
     </button>
-    <button mat-menu-item (click)="onMenuItemClicked('/viagens')">
+    <button mat-menu-item routerLink="/viagens" routerLinkActive="selected" (click)="onMenuItemClicked()">
       <mat-icon>directions_car</mat-icon>
       Viagens
     </button>
