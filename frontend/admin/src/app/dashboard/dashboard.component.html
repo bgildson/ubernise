@@ -1,6 +1,8 @@
 <div class="container">
   <div class="content">
     <div class="content-padding">
+      <canvas height="200px" #canvas>{{ chart$ | async }}</canvas>
+
       <viagem-card
         *ngIf="viagemStarted$ | async as viagem"
         [disabled]="waiting$ | async"

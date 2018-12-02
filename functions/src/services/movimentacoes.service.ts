@@ -1,19 +1,31 @@
-import * as firebase from 'firebase-admin';
+import { firestore } from 'firebase-admin';
+import * as moment from 'moment';
 
 export class MovimentacoesService {
   static readonly basePath = 'movimentacoes';
 
   static createRef = () =>
-    firebase
-      .firestore()
+    firestore()
       .collection(MovimentacoesService.basePath)
       .doc();
 
   static getByUsuarioUidViagemId = (usuarioUid: string, viagemId) =>
-    firebase
-      .firestore()
+    firestore()
       .collection(MovimentacoesService.basePath)
       .where('usuario_uid', '==', usuarioUid)
       .where('viagem_id', '==', viagemId)
+      .get();
+
+  static getByAnoMes = (ano: number, mes: number) =>
+    firestore()
+      .collection(MovimentacoesService.basePath)
+      .where('data', '>=', new Date(ano, mes, 1))
+      .where(
+        'data',
+        '<',
+        moment(new Date(ano, mes, 1))
+          .add(1, 'month')
+          .toDate()
+      )
       .get();
 }

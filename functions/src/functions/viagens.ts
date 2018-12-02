@@ -1,4 +1,4 @@
-import * as firebase from 'firebase-admin';
+import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 import {
@@ -14,6 +14,7 @@ import {
   CarteirasService
 } from '../services';
 import { authenticatedAndUsuarioWithPerfilIn } from './shared';
+import { reprocessarIndicador } from './indicadores';
 
 export const parseViagemToResponse = (viagem: ViagemModel) => ({
   ...viagem,
@@ -35,7 +36,7 @@ export const viagensCreate = functions.https.onCall(
         'Já existe uma viagem iniciada!'
       );
 
-    const batch = firebase.firestore().batch();
+    const batch = firestore().batch();
 
     const viagemRef = ViagensService.createRef();
 
@@ -112,7 +113,7 @@ export const viagensFinalize = functions.https.onCall(
 
     const taxa: TaxaModel = <TaxaModel>taxaSnap.docs[0].data();
 
-    const batch = firebase.firestore().batch();
+    const batch = firestore().batch();
 
     const _viagem = <ViagemModel>{
       ...viagem,
@@ -149,6 +150,13 @@ export const viagensFinalize = functions.https.onCall(
 
     await batch.commit();
 
+    await reprocessarIndicador(
+      'inadimplencia_mensal',
+      context.auth.uid,
+      _viagem.data_final.getFullYear(),
+      _viagem.data_final.getMonth()
+    );
+
     return parseViagemToResponse(_viagem);
   }
 );
@@ -174,7 +182,7 @@ export const viagensCancel = functions.https.onCall(
         'Esta viagem já está cancelada!'
       );
 
-    const batch = firebase.firestore().batch();
+    const batch = firestore().batch();
 
     const _viagem = <ViagemModel>{
       ...viagem,
@@ -184,13 +192,13 @@ export const viagensCancel = functions.https.onCall(
     batch.update(viagemSnap.ref, _viagem);
 
     let passageiro;
-    for (passageiro of viagem.passageiros) {
+    for (passageiro of _viagem.passageiros) {
       const carteiraSnap = await CarteirasService.getById(passageiro).get();
       const carteira = <CarteiraModel>carteiraSnap.data();
 
       batch.update(carteiraSnap.ref, <CarteiraModel>{
         ...carteira,
-        saldo: carteira.saldo + viagem.taxa_valor
+        saldo: carteira.saldo + _viagem.taxa_valor
       });
 
       const movimentacaoSnap = await MovimentacoesService.getByUsuarioUidViagemId(
@@ -202,6 +210,15 @@ export const viagensCancel = functions.https.onCall(
     }
 
     await batch.commit();
+
+    if (viagem.status === 'finalizada') {
+      await reprocessarIndicador(
+        'inadimplencia_mensal',
+        context.auth.uid,
+        _viagem.data_final.getFullYear(),
+        _viagem.data_final.getMonth()
+      );
+    }
 
     return parseViagemToResponse(_viagem);
   }

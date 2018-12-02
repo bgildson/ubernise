@@ -23,6 +23,11 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    match /indicadores/{indicador} {
+      allow read: if autenticado();
+      allow write: if false;
+    }
+
     match /movimentacoes/{movimentacao} {
       allow read: if autenticado();
       allow write: if false;

@@ -18,6 +18,7 @@ import { ViagensState } from '@admin/viagens/viagens.state';
 import { DashboardRoutingModule } from './dashbard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { ViagemRowComponent } from './viagem-row/viagem-row.component';
+import { IndicadoresModule } from '@admin/indicadores/indicadores.module';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { ViagemRowComponent } from './viagem-row/viagem-row.component';
     MatExpansionModule,
     MatIconModule,
     ConfirmDialogModule,
+    IndicadoresModule,
     UsuarioTileModule,
     ViagemCardModule,
     ViagemCreateDialogModule,

@@ -4,6 +4,7 @@ import * as functions from 'firebase-functions';
 firebase.initializeApp(functions.config().firebase);
 
 export * from './functions/carteiras';
+export * from './functions/indicadores';
 export * from './functions/taxas';
 export * from './functions/usuarios';
 export * from './functions/viagens';
