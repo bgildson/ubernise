@@ -1,4 +1,4 @@
-import * as firebase from 'firebase-admin';
+import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 import { parseStringToNumber } from '../../../shared/functions';
@@ -14,7 +14,7 @@ export const carteirasAdicionarCredito = functions.https.onCall(
       'motorista'
     ]);
 
-    const _data = new Date();
+    const _data = firestore.Timestamp.now().toDate();
     const valor = parseStringToNumber(data.valor);
 
     if (valor <= 0)
@@ -31,7 +31,7 @@ export const carteirasAdicionarCredito = functions.https.onCall(
       );
     const carteira = <CarteiraModel>carteiraSnap.data();
 
-    const batch = firebase.firestore().batch();
+    const batch = firestore().batch();
 
     const _carteira = <CarteiraModel>{
       ...carteira,

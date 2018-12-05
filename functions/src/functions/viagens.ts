@@ -40,7 +40,7 @@ export const viagensCreate = functions.https.onCall(
 
     const viagemRef = ViagensService.createRef();
 
-    const dataInicial = new Date();
+    const dataInicial = firestore.Timestamp.now().toDate();
 
     const taxaSnap = await TaxasService.getOlderThanData(dataInicial);
     if (taxaSnap.empty)
@@ -120,7 +120,7 @@ export const viagensFinalize = functions.https.onCall(
       id: viagemSnap.id,
       passageiros: _passageiros,
       status: 'finalizada',
-      data_final: new Date()
+      data_final: firestore.Timestamp.now().toDate()
     };
 
     batch.update(viagemSnap.ref, _viagem);

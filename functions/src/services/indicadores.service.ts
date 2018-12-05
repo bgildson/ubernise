@@ -26,7 +26,7 @@ export class IndicadoresService {
       .collection(IndicadoresService.basePath)
       .where('tipo', '==', tipo)
       .where('usuario_uid', '==', usuarioUid)
-      .where('data', '==', new Date(ano, mes, 1))
+      .where('data', '==', new Date(ano, mes, 1, 3))
       .get();
 
   static getByTipoUsuarioUidAnoMesAnterior = (
@@ -35,7 +35,7 @@ export class IndicadoresService {
     ano: number,
     mes: number
   ) => {
-    const dataAnterior = moment(new Date(ano, mes, 1))
+    const dataAnterior = moment(new Date(ano, mes, 1, 3))
       .subtract(1, 'months')
       .toDate();
 

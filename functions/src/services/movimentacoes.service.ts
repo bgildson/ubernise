@@ -19,11 +19,11 @@ export class MovimentacoesService {
   static getByAnoMes = (ano: number, mes: number) =>
     firestore()
       .collection(MovimentacoesService.basePath)
-      .where('data', '>=', new Date(ano, mes, 1))
+      .where('data', '>=', new Date(ano, mes, 1, 3))
       .where(
         'data',
         '<',
-        moment(new Date(ano, mes, 1))
+        moment(new Date(ano, mes, 1, 3))
           .add(1, 'month')
           .toDate()
       )
