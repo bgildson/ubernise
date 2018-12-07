@@ -8,10 +8,14 @@
         [disabled]="waiting$ | async"
         [viagem]="viagem"
         (finalize)="onViagemStartedFinalize(viagem.id)"
-        (cancel)="onViagemStartedCancel(viagem.id)"></viagem-card>
+        (cancel)="onViagemCancel(viagem.id)"></viagem-card>
 
       <h3 *ngIf="(recentsViagens$ | async).length">Viagens Recentes</h3>
-      <viagem-row *ngFor="let viagem of recentsViagens$ | async" [viagem]="viagem"></viagem-row>
+      <viagem-resume
+        *ngFor="let viagem of recentsViagens$ | async"
+        [viagem]="viagem"
+        (duplicate)="onViagemCreate($event)"
+        (cancel)="onViagemCancel($event.id)"></viagem-resume>
 
       <button mat-fab (click)="onViagemCreate()" [disabled]="waiting$ | async">
         <mat-icon>add</mat-icon>

@@ -131,17 +131,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.canvasCtx$.next(this.canvasRef.nativeElement.getContext('2d'));
-    // this.canvasCtx = this.canvasRef.nativeElement.getContext('2d');
   }
 
-  onViagemCreate() {
+  onViagemCreate(data = { origem: '', destino: '' }) {
     this.dialog
-      .open(ViagemCreateDialogComponent)
+      .open(ViagemCreateDialogComponent, { data })
       .afterClosed()
       .subscribe();
   }
 
-  onViagemStartedCancel(id) {
+  onViagemCancel(id) {
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
