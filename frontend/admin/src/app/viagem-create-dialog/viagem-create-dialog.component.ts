@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Store, Select, Actions, ofAction } from '@ngxs/store';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 import {
   CreateViagemAction,
   CreateViagemSuccessAction
 } from '@admin/viagens/viagens.actions';
-import { MatDialogRef } from '@angular/material';
 import { ViagensState } from '@admin/viagens/viagens.state';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'viagem-create-dialog',
@@ -29,8 +29,11 @@ export class ViagemCreateDialogComponent {
     private fb: FormBuilder,
     private store: Store,
     private actions$: Actions,
-    private dialogRef: MatDialogRef<ViagemCreateDialogComponent>
+    private dialogRef: MatDialogRef<ViagemCreateDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data: { origem; destino }
   ) {
+    this.form.patchValue(data);
+
     this.creating$
       .pipe(
         takeUntil(this.destroyed$),
