@@ -22,11 +22,20 @@
     </div>
   </mat-expansion-panel-header>
   <div class="ride-content">
-    <span class="label">Status</span>
-    <span>{{ viagemStatusDescriptions[viagem.status] }}</span>
-    <span class="label">Passageiros</span>
-    <div class="passengers">
-      <usuario-tile *ngFor="let passageiro of viagem.passageiros" [canToggle]="false" [usuario]="passageiro"></usuario-tile>
+    <div>
+      <span class="label">Status</span>
+      <span>{{ viagemStatusDescriptions[viagem.status] }}</span>
+      <span class="label">Passageiros</span>
+      <div class="passengers">
+        <usuario-tile *ngFor="let passageiro of viagem.passageiros" [canToggle]="false" [usuario]="passageiro"></usuario-tile>
+      </div>
     </div>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="duplicate.next(viagem)">Duplicar</button>
+      <button mat-menu-item (click)="cancel.next(viagem)">Cancelar</button>
+    </mat-menu>
   </div>
 </mat-expansion-panel>
